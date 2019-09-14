@@ -23,7 +23,12 @@ public class login extends SerenityStory {
 
     @Then("Berhasil masuk ke website sepulsa")
     public void thenBerhasilMasukKeWebsiteSepulsa() {
-        step.validateLoginUser();
+        //step.validateLoginUser();
+    }
+
+    @Then("Berhasil login dengan mendapat <rescode> dan <pesan>")
+    public void thenBerhasilLoginDenganMendapatrescodeDanpesan(String rescode, String pesan) {
+        step.validateLoginUser(rescode, pesan);
     }
 
 }

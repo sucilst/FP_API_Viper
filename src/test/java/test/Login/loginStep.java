@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+
+import org.junit.Assert;
 import utils.Endpoint;
 
 public class loginStep extends Steps {
@@ -28,25 +30,26 @@ public class loginStep extends Steps {
                     .post(endPoint.login);
         }
 
-    public void validateLoginUser(){
-        String resCode = SerenityRest.then().extract().path("rescode");
+    public void validateLoginUser(String rescode, String pesan){
+        String resCodeActual = SerenityRest.then().extract().path("rescode");
+        String pesanActual = SerenityRest.then().extract().path("message.body");
 
-        if (resCode.equals("00")) {
+        if (resCodeActual.equals("00")) {
             SerenityRest
                     .then()
-                    .statusCode(200)
-                    .body(matchesJsonSchemaInClasspath("JSONSchema/Login/loginSukses.json"));
-
-            //Assert.assertTrue(resCode.equals("00"));
+                        .statusCode(200)
+                        .body(matchesJsonSchemaInClasspath("JSONSchema/Login/loginSukses.json"));
         }
         else {
             SerenityRest
                     .then()
-                    .statusCode(200)
-                    .body(matchesJsonSchemaInClasspath("JSONSchema/Login/loginGagal.json"));
+                        .statusCode(200)
+                        .body(matchesJsonSchemaInClasspath("JSONSchema/Login/loginGagal.json"));
 
-            //Assert.assertTrue(resCode.equals("24")||resCode.equals("86"));
         }
+
+        Assert.assertTrue(resCodeActual.equals(rescode));
+        Assert.assertTrue(pesanActual.equals(pesan));
     }
 
 }

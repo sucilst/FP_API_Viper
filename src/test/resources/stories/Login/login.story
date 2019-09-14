@@ -5,17 +5,17 @@ Sebagai user
 Saya ingin login ke website sepulsa
 Sehingga saya bisa melakukan transaksi di website sepulsa
 
-Scenario: Buat Akun Valid
+Scenario: Login Akun
 Given User sudah berada di halaman awal
 When Mengisi field <username> dan <password> untuk login
-Then Berhasil masuk ke website sepulsa
+Then Berhasil login dengan mendapat <rescode> dan <pesan>
 
 Examples:
-|username|password|
-|farras@alterra.id|greenday89|
-||greenday89|
-|farras@alterra.id||
-|||
-|rakaditya@gmail.com|ganteng|
-|rakacakep@gmail.com|alterra1997|
-|rakacakep@gmail.com|ganteng|
+|username             |password   |rescode|pesan                             |
+|tester-tara@gmail.com|sepulsa123 |00     |                                  |
+|                     |greenday89 |86     |Akun di block. Silahkan kontak CS.|
+|farras@alterra.id    |           |24     |Email atau password salah.        |
+|                     |           |86     |Akun di block. Silahkan kontak CS.|
+|rakaditya@gmail.com  |ganteng    |24     |Email atau password salah.        |
+|rakacakep@gmail.com  |alterra1997|24     |Email atau password salah.        |
+|rakacakep@gmail.com  |ganteng    |24     |Email atau password salah.        |
