@@ -36,51 +36,53 @@ public class plnPostpaidLogin extends SerenityStory {
     }
 
     @When("Pilih metode <pembayaran> dan <cekCC> dan mendapat <rescode> dan <pesan>")
-    public void whenPilihMetodepembayaranDancekCCDanMendapatrescodeDanpesan(String pembayaran, String cekCC, String rescode, String pesan ) {
+    public void whenPilihMetodepembayaranDancekCCDanMendapatrescodeDanpesan(String pembayaran, String cekCC, String rescode, String pesan) {
         step.selectPayment(pembayaran, rescode, pesan);
         step.prosesPembayaran(pembayaran, cekCC, rescode, pesan);
     }
 
     @Then("Proses pembayaran tagihan PLN Postpaid terbayarkan dan mendapat <rescode> dan <pesan>")
     public void thenProsesPembayaranTagihanPLNPostpaidTerbayarkanDanMendapatrescodeDanpesan(String rescode, String pesan) {
-        step.completePembayaran(rescode, pesan);
+        step.completePembayaran(rescode, pesan, "");
     }
 
     //SCENARIO 2
 
-    @When("Masukkan <customerNumber> dan <productId> (invalid) untuk proses inquiry")
-    public void whenMasukkancustomerNumberDanproductIdinvalidUntukProsesInquiry(String customerNumber, String productId) {
-        step.inquiryGagal(customerNumber, productId);
+    @When("Masukkan <customerNumber> dan <productId> (invalid) untuk proses inquiry dan mendapat <rescode> dan <pesan>")
+    public void whenMasukkancustomerNumberDanproductIdinvalidUntukProsesInquiryDanMendapatrescodeDanpesan(String customerNumber, String productId, String rescode, String pesan) {
+        step.inquiry(customerNumber, productId, rescode, pesan);
     }
 
-    @Then("Inquiry gagal dan mendapat <rescode> dan <pesan>")
-    public void thenInquiryGagalDanMendapatrescodeDanpesan(String rescode, String pesan) {
-        step.validateInquiryGagal(rescode, pesan);
+    @Then("Inquiry gagal")
+    public void thenInquiryGagal() {
+
     }
 
     //SCENARIO 3
 
-    @When("Masukkan <customerNumber> dan <productId> dan <type> (invalid) untuk proses cart add")
-    public void whenMasukkancustomerNumberDanproductIdDantypeinvalidUntukProsesCartAdd(String customerNumber, String productId, String type) {
-        step.addCartGagal(customerNumber, productId, type);
+    @When("Masukkan <customerNumber> dan <productId> dan <type> (invalid) untuk proses cart add dan mendapat <rescode> dan <pesan>")
+    public void whenMasukkancustomerNumberDanproductIdDantypeinvalidUntukProsesCartAddDanMendapatrescodeDanpesan(String customerNumber, String productId, String type, String rescode, String pesan) {
+        step.addCart(customerNumber, productId, type, rescode, pesan);
     }
 
-    @Then("Proses cart add gagal dan mendapat <rescode> dan <pesan>")
-    public void thenProsesCartAddGagalDanMendapatrescodeDanpesan(String rescode, String pesan) {
-        step.validateAddCartGagal(rescode, pesan);
+    @Then("Proses cart add gagal")
+    public void thenProsesCartAddGagal() {
+
     }
 
     //SCENARIO 4
 
-    @When("Masukkan metode <pembayaran> invalid")
-    public void whenMasukkanMetodepembayaranInvalid(String pembayaran) {
-        step.selectPaymentGagal(pembayaran);
+    @When("Masukkan metode <pembayaran> invalid dan mendapat <rescode> dan <pesan>")
+    public void whenMasukkanMetodepembayaranInvalidDanMendapatrescodeDanpesan(String pembayaran, String rescode, String pesan) {
+        step.selectPayment(pembayaran, rescode, pesan);
+        step.prosesPembayaran(pembayaran, "sc", rescode, pesan);
     }
 
-    @Then("Proses gagal dan mendapat <rescode> dan <pesan>")
-    public void thenProsesGagalDanMendapatrescodeDanpesan(String rescode, String pesan) {
-        step.validateSelectPaymentGagal(rescode, pesan);
+    @Then("Proses gagal")
+    public void thenProsesGagal() {
+
     }
+
 
     //SCENARIO 5
     @When("Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode1> and <pesan1>")
@@ -99,16 +101,14 @@ public class plnPostpaidLogin extends SerenityStory {
         step.prosesPembayaran(pembayaran, cekCC, rescode1, pesan1);
     }
 
-    @When("Masukkan <orderId> invalid")
-    public void whenMasukkanorderIdInvalid(String orderId) {
-        step.completeSelectPaymentMethodGagal(orderId);
+    @When("Masukkan <orderId> invalid dan mendapat <rescode> dan <pesan>")
+    public void whenMasukkanorderIdInvalidDanMendapatrescodeDanpesan(String orderId, String rescode, String pesan) {
+        step.completePembayaran(rescode, pesan, orderId);
     }
 
-    @Then("Proses complete select payment method gagal dan mendapat <rescode> dan <pesan>")
-    public void thenProsesCompleteSelectPaymentMethodGagalDanMendapatrescodeDanpesan(String rescode, String pesan) {
-        step.validateCompleteSelectPaymentMethodGagal(rescode, pesan);
+    @Then("Proses complete select payment method gagal")
+    public void thenProsesCompleteSelectPaymentMethodGagal() {
+
     }
-
-
 
 }

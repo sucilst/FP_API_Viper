@@ -24,8 +24,8 @@ Examples:
 Scenario: Inquiry Gagal (invalid product id)
 Given User sudah login dengan <email> dan <password>
 And Sudah di halaman pembayaran PLN Postpaid
-When Masukkan <customerNumber> dan <productId> (invalid) untuk proses inquiry
-Then Inquiry gagal dan mendapat <rescode> dan <pesan>
+When Masukkan <customerNumber> dan <productId> (invalid) untuk proses inquiry dan mendapat <rescode> dan <pesan>
+Then Inquiry gagal
 
 Examples:
 |email                 |password        |customerNumber|productId|rescode|pesan             |
@@ -35,8 +35,8 @@ Examples:
 Scenario: Add Cart Gagal (invalid product id / type)
 Given User sudah login dengan <email> dan <password>
 And Sudah di halaman pembayaran PLN Postpaid
-When Masukkan <customerNumber> dan <productId> dan <type> (invalid) untuk proses cart add
-Then Proses cart add gagal dan mendapat <rescode> dan <pesan>
+When Masukkan <customerNumber> dan <productId> dan <type> (invalid) untuk proses cart add dan mendapat <rescode> dan <pesan>
+Then Proses cart add gagal
 
 Examples:
 |email                 |password        |customerNumber|productId|type         |rescode|pesan             |
@@ -50,8 +50,8 @@ Given User sudah login dengan <email> dan <password>
 And Sudah di halaman pembayaran PLN Postpaid
 When Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode> dan <pesan>
 And Masukkan <customerNumber> dan <productId> dan <type> untuk proses cart add dan mendapat <rescode> dan <pesan>
-And Masukkan metode <pembayaran> invalid
-Then Proses gagal dan mendapat <rescode> dan <pesan>
+And Masukkan metode <pembayaran> invalid dan mendapat <rescode> dan <pesan>
+Then Proses gagal
 
 Examples:
 |email                 |password        |customerNumber|productId|type        |pembayaran       |rescode|pesan|
@@ -64,8 +64,8 @@ And Sudah di halaman pembayaran PLN Postpaid
 When Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode1> and <pesan1>
 And Masukkan <customerNumber> dan <productId> dan <type> untuk proses cart add dan mendapat <rescode1> and <pesan1>
 And Pilih metode <pembayaran> dan <cekCC> dan mendapat <rescode1> and <pesan1>
-And Masukkan <orderId> invalid
-Then Proses complete select payment method gagal dan mendapat <rescode> dan <pesan>
+And Masukkan <orderId> invalid dan mendapat <rescode> dan <pesan>
+Then Proses complete select payment method gagal
 
 Examples:
 |email                 |password        |customerNumber|productId|type        |pembayaran                         |cekCC|orderId|rescode|pesan                 |rescode1|pesan1|
