@@ -1,0 +1,150 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "rescode": {
+      "type": "string"
+    },
+    "message": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "body"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "pane": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "body": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "integer"
+                },
+                "product_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "body",
+                "amount",
+                "product_id"
+              ]
+            }
+          ]
+        },
+        "subtotal": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "body": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "title",
+                "body",
+                "amount"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "body": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "title",
+                "body",
+                "amount"
+              ]
+            }
+          ]
+        },
+        "total": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "body": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "title",
+                "body",
+                "amount"
+              ]
+            }
+          ]
+        },
+        "promo_code": {
+          "type": "string"
+        },
+        "use_credit": {
+          "type": "boolean"
+        },
+        "update_payment_list": {
+          "type": "boolean"
+        },
+        "quick": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "pane",
+        "subtotal",
+        "total",
+        "promo_code",
+        "use_credit",
+        "update_payment_list",
+        "quick"
+      ]
+    }
+  },
+  "required": [
+    "rescode",
+    "message",
+    "data"
+  ]
+}
