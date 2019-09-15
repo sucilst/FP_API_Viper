@@ -106,6 +106,11 @@ public class plnPostpaidLogin extends SerenityStory {
         step.completePembayaran(rescode, pesan, orderId);
     }
 
+    @When("Mendapat <rescode> dan <pesan> setelah memasukkan <orderId> invalid")
+    public void whenMendapatrescodeDanpesanSetelahMemasukkanorderIdInvalid(String rescode, String pesan, String orderId) {
+        step.completePembayaran(rescode, pesan, orderId);
+    }
+
     @Then("Proses complete select payment method gagal")
     public void thenProsesCompleteSelectPaymentMethodGagal() {
 

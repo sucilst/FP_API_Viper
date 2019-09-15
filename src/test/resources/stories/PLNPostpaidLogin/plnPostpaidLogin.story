@@ -1,11 +1,11 @@
-Meta: Login Akun
+Meta: Transaksi PLN Postpaid
 
 Narrative:
 Sebagai user
-Saya ingin melakukan transaksi pembayaran PLN
-Sehingga tagihan transaksi PLN saya terbayarkan
+Saya ingin melakukan transaksi pembayaran PLN postpaid
+Sehingga tagihan transaksi PLN postpaid terbayarkan
 
-Scenario: Transaksi Pembayaran PLN Postpaid dengan VA dan CC (Login)
+Scenario: Transaksi Pembayaran PLN Postpaid (Login)
 Given User sudah login dengan <email> dan <password>
 And Sudah di halaman pembayaran PLN Postpaid
 When Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode> dan <pesan>
@@ -64,7 +64,7 @@ And Sudah di halaman pembayaran PLN Postpaid
 When Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode1> and <pesan1>
 And Masukkan <customerNumber> dan <productId> dan <type> untuk proses cart add dan mendapat <rescode1> and <pesan1>
 And Pilih metode <pembayaran> dan <cekCC> dan mendapat <rescode1> and <pesan1>
-And Masukkan <orderId> invalid dan mendapat <rescode> dan <pesan>
+And Mendapat <rescode> dan <pesan> setelah memasukkan <orderId> invalid
 Then Proses complete select payment method gagal
 
 Examples:

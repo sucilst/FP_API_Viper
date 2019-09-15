@@ -1,7 +1,9 @@
-package test.PLNPostpaidLogin;
+package test.PLNPrepaidLogin;
 
 import net.serenitybdd.rest.SerenityRest;
-import org.jbehave.core.steps.Steps;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
 import org.junit.Assert;
 import utils.Endpoint;
 
@@ -10,10 +12,10 @@ import java.util.Map;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
-public class plnPostpaidLoginStep extends Steps {
+public class plnPrepaidLoginStep {
 
     Endpoint endPoint;
-    String accessToken, noOrder, prodId, metodePembayaran;
+    String accessToken, prodId, metodePembayaran, noOrder;
 
     public void loginForGetToken(String username, String password){
         Map<String, Object> reqBody =new HashMap<>();
@@ -28,25 +30,6 @@ public class plnPostpaidLoginStep extends Steps {
                     .body(reqBody)
                 .when()
                     .post(endPoint.login);
-        SerenityRest
-                .then()
-                    .statusCode(200);
-
-        String resCode = SerenityRest.then().extract().path("rescode");
-        Assert.assertTrue(resCode.equals("00"));
-
-        accessToken = SerenityRest.then().extract().path("data.access_token");
-
-    }
-
-    public void getAnonimToken(){
-        SerenityRest
-                .given()
-                    .header("User-Agent", "alta")
-                    .header("Source","phoenix")
-                    .contentType("application/json")
-                .when()
-                    .get(endPoint.getAnonimToken);
         SerenityRest
                 .then()
                     .statusCode(200);
@@ -73,18 +56,10 @@ public class plnPostpaidLoginStep extends Steps {
                 .when()
                     .post(endPoint.inquiryPLN);
 
-        if (rescode.equals("00")) {
-            SerenityRest
+        SerenityRest
                     .then()
                     .statusCode(200)
-                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/inquirySukses.json"));
-        }
-        else if (rescode.equals("63")){
-            SerenityRest
-                    .then()
-                    .statusCode(200)
-                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/inquiryGagal.json"));
-        }
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPrepaidLogin/inquirySukses.json"));
 
         String resCodeActual = SerenityRest.then().extract().path("rescode");
         String pesanActual = SerenityRest.then().extract().path("message.body");
@@ -106,32 +81,23 @@ public class plnPostpaidLoginStep extends Steps {
                     .header("User-Agent", "alta")
                     .header("Source","phoenix")
                     .header("Authorization","Bearer " + accessToken)
-                .contentType("application/json")
+                    .contentType("application/json")
                     .body(reqBody)
                 .when()
                     .post(endPoint.addCart);
 
-        if (rescode.equals("00")) {
             SerenityRest
                     .then()
-                    .statusCode(200)
-                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/addCartSukses.json"));
-
-            String prodIdActual = SerenityRest.then().extract().path("data.pane[0].product_id");
-            Assert.assertTrue(productId.equals(prodIdActual));
-        }
-        else if (rescode.equals("63")) {
-            SerenityRest
-                    .then()
-                    .statusCode(200)
-                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/addCartGagal.json"));
-        }
+                        .statusCode(200)
+                        .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPrepaidLogin/addCartSukses.json"));
 
         String resCodeActual = SerenityRest.then().extract().path("rescode");
         String pesanActual = SerenityRest.then().extract().path("message.body");
+        String prodIdActual = SerenityRest.then().extract().path("data.pane[0].product_id");
 
         Assert.assertTrue(rescode.equals(resCodeActual));
         Assert.assertTrue(pesan.equals(pesanActual));
+        Assert.assertTrue(productId.equals(prodIdActual));
 
         prodId = productId;
     }
@@ -144,18 +110,18 @@ public class plnPostpaidLoginStep extends Steps {
 
         SerenityRest
                 .given()
-                    .header("User-Agent", "alta")
-                    .header("Source","phoenix")
-                    .header("Authorization","Bearer " + accessToken)
+                .header("User-Agent", "alta")
+                .header("Source","phoenix")
+                .header("Authorization","Bearer " + accessToken)
                 .contentType("application/json")
-                    .body(reqBody)
+                .body(reqBody)
                 .when()
-                    .post(endPoint.selectPayment);
+                .post(endPoint.selectPayment);
 
         SerenityRest
                 .then()
-                    .statusCode(200)
-                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/selectPaymentSukses.json"));
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/selectPaymentSukses.json"));
 
         String prodIdActual = SerenityRest.then().extract().path("data.pane[0].product_id");
         String resCodeActual = SerenityRest.then().extract().path("rescode");
@@ -204,14 +170,14 @@ public class plnPostpaidLoginStep extends Steps {
         if (cekCC.equals("no") || cekCC.equals("cc")) {
             SerenityRest
                     .then()
-                        .statusCode(200)
-                        .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/prosesPembayaranSukses.json"));
+                    .statusCode(200)
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/prosesPembayaranSukses.json"));
         }
         else {
             SerenityRest
                     .then()
-                        .statusCode(200)
-                        .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/prosesPembayaranGagal.json"));   //JSON SUKSES DENGAN SC sama dengan JSON GAGAL
+                    .statusCode(200)
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/prosesPembayaranGagal.json"));   //JSON SUKSES DENGAN SC sama dengan JSON GAGAL
         }
 
         String resCodeActual = SerenityRest.then().extract().path("rescode");
@@ -238,21 +204,16 @@ public class plnPostpaidLoginStep extends Steps {
         noOrder = SerenityRest.then().extract().path("data.order_id");
     }
 
-    public void completePembayaran(String rescode, String pesan, String orderId){
+    public void completePembayaran(String rescode, String pesan){
         Map<String, Object> reqBody =new HashMap<>();
-        if (rescode.equals("00")) {
-            reqBody.put("order_id", noOrder);
-        }
-        else if (rescode.equals("81")){
-            reqBody.put("order_id", orderId);
-        }
+        reqBody.put("order_id", noOrder);
 
         SerenityRest
                 .given()
                     .header("User-Agent", "alta")
                     .header("Source","phoenix")
                     .header("Authorization","Bearer " + accessToken)
-                    .contentType("application/json")
+                .contentType("application/json")
                     .body(reqBody)
                 .when()
                     .post(endPoint.completePembayaran);
@@ -275,23 +236,148 @@ public class plnPostpaidLoginStep extends Steps {
                     .statusCode(200)
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/completePembayaranSCSukses.json"));
 
-            String cekOrder = SerenityRest.then().extract().path("data.order_id");
-            String pembayaranActual = SerenityRest.then().extract().path("data.cart.payment_title");
-
-            Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
-            Assert.assertTrue(cekOrder.equals(noOrder));
         }
-        else if (rescode.equals("81")){
+
+        String cekOrder = SerenityRest.then().extract().path("data.order_id");
+        String pembayaranActual = SerenityRest.then().extract().path("data.cart.payment_title");
+        String resCodeActual = SerenityRest.then().extract().path("rescode");
+        String pesanActual = SerenityRest.then().extract().path("message.body");
+
+        Assert.assertTrue(cekOrder.equals(noOrder));
+        Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
+        Assert.assertTrue(rescode.equals(resCodeActual));
+        Assert.assertTrue(pesan.equals(pesanActual));
+    }
+
+    public void inquiryGagal (String customerNumber, String productId) {
+        Map<String, Object> reqBody = new HashMap<>();
+        reqBody.put("customer_number", customerNumber);
+        reqBody.put("product_id", productId);
+        reqBody.put("phone_number", "");
+
+        SerenityRest
+                .given()
+                    .header("User-Agent", "alta")
+                    .header("Source", "phoenix")
+                    .contentType("application/json")
+                    .body(reqBody)
+                .when()
+                    .post(endPoint.inquiryPLN);
+    }
+
+    public void validateInquiryGagal (String rescode, String pesan){
+        if (rescode.equals("63")){
             SerenityRest
                     .then()
                     .statusCode(200)
-                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/completePembayaranGagal.json"));
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPrepaidLogin/inquiryGagal.json"));
+
+            String resCodeActual = SerenityRest.then().extract().path("rescode");
+            String pesanActual = SerenityRest.then().extract().path("message.body");
+
+            Assert.assertTrue(resCodeActual.equals(rescode));
+            Assert.assertTrue(pesanActual.equals(pesan));
         }
+        else {
+            SerenityRest
+                    .then()
+                    .statusCode(500);
+        }
+    }
+
+    public void addCartGagal (String customerNumber, String productId, String type) {
+        Map<String, Object> reqBody = new HashMap<>();
+        reqBody.put("type", type);
+        reqBody.put("product_id", productId);
+        reqBody.put("phone_number", "081234000001");
+        reqBody.put("customer_number", customerNumber);
+        reqBody.put("provider", "");
+
+        SerenityRest
+                .given()
+                    .header("User-Agent", "alta")
+                    .header("Source", "phoenix")
+                    .header("Authorization", "Bearer " + accessToken)
+                    .contentType("application/json")
+                    .body(reqBody)
+                .when()
+                    .post(endPoint.addCart);
+
+    }
+
+    public void validateAddCartGagal(String rescode, String pesan){
+        SerenityRest
+                .then()
+                    .statusCode(200)
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPrepaidLogin/addCartGagal.json"));
 
         String resCodeActual = SerenityRest.then().extract().path("rescode");
         String pesanActual = SerenityRest.then().extract().path("message.body");
 
         Assert.assertTrue(rescode.equals(resCodeActual));
         Assert.assertTrue(pesan.equals(pesanActual));
+    }
+
+    public void prosesPembayaranGagal(String pembayaran) {
+        Map<String, Object> reqBody = new HashMap<>();
+        reqBody.put("payment_method", pembayaran);
+        reqBody.put("promo_code", "");
+        reqBody.put("use_credit", true);
+        reqBody.put("user_mail", "coba@alterra.id");
+
+        SerenityRest
+                .given()
+                    .header("User-Agent", "alta")
+                    .header("Source", "phoenix")
+                    .header("Authorization", "Bearer " + accessToken)
+                    .contentType("application/json")
+                    .body(reqBody)
+                .when()
+                    .post(endPoint.prosesPembayaran);
+    }
+
+    public void validateProsesPembayaranGagal(String rescode, String pesan) {
+
+        SerenityRest
+                .then()
+                    .statusCode(200)
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/prosesPembayaranGagal.json"));   //JSON SUKSES DENGAN SC sama dengan JSON GAGAL
+
+        String resCodeActual = SerenityRest.then().extract().path("rescode");
+        String pesanActual = SerenityRest.then().extract().path("message.body");
+
+        Assert.assertTrue(rescode.equals(resCodeActual));
+        Assert.assertTrue(pesan.equals(pesanActual));
+
         }
+
+    public void completePembayaranGagal(String orderId) {
+        Map<String, Object> reqBody = new HashMap<>();
+        reqBody.put("order_id", orderId);
+
+        SerenityRest
+                .given()
+                    .header("User-Agent", "alta")
+                    .header("Source", "phoenix")
+                    .header("Authorization", "Bearer " + accessToken)
+                    .contentType("application/json")
+                    .body(reqBody)
+                .when()
+                    .post(endPoint.completePembayaran);
+    }
+
+    public void validateCompletePembayaranGagal(String rescode, String pesan) {
+
+        SerenityRest
+                .then()
+                    .statusCode(200)
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/completePembayaranGagal.json"));
+
+        String resCodeActual = SerenityRest.then().extract().path("rescode");
+        String pesanActual = SerenityRest.then().extract().path("message.body");
+
+        Assert.assertTrue(rescode.equals(resCodeActual));
+        Assert.assertTrue(pesan.equals(pesanActual));
+    }
+
 }
