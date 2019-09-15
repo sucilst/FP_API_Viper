@@ -52,7 +52,7 @@ public class PembelianPulsaSteps extends Steps {
                     .header("Authorization", "Bearer " + token)
                     .body(addCart)
                 .when()
-                    .post(Endpoint.add_cart)
+                    .post(Endpoint.addCart)
                 .then()
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PembelianPulsa/CartAdd_00.json"))
                     .statusCode(200);
@@ -82,7 +82,7 @@ public class PembelianPulsaSteps extends Steps {
                     .header("Authorization", "Bearer " + token)
                     .body(upCart)
                 .when()
-                    .post(Endpoint.update_cart)
+                    .post(Endpoint.selectPayment)
                 .then()
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PembelianPulsa/CartUpdate.json"))
                     .statusCode(200);
@@ -113,7 +113,7 @@ public class PembelianPulsaSteps extends Steps {
                     .header("Authorization", "Bearer " + token)
                     .body(processCart)
                 .when()
-                    .post(Endpoint.process_cart)
+                    .post(Endpoint.prosesPembayaran)
                 .then()
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PembelianPulsa/CartProcess_00.json"))
                     .statusCode(200);
@@ -158,7 +158,7 @@ public class PembelianPulsaSteps extends Steps {
                     .header("Authorization", "Bearer " + token)
                     .body(ctCart)
                 .when()
-                    .post(Endpoint.complete_cart)
+                    .post(Endpoint.completePembayaran)
                 .then()
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PembelianPulsa/CartComplete_00.json"))
                     .statusCode(200);
@@ -205,7 +205,7 @@ public class PembelianPulsaSteps extends Steps {
                     .header("Authorization", "Bearer " + token)
                     .body(addCart)
                 .when()
-                    .post(Endpoint.add_cart)
+                    .post(Endpoint.addCart)
                 .then()
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PembelianPulsa/CartAdd_63.json"))
                     .statusCode(200);
@@ -230,7 +230,7 @@ public class PembelianPulsaSteps extends Steps {
                 .header("Authorization", "Bearer " + token)
                 .body(ctCart)
                 .when()
-                .post(Endpoint.complete_cart)
+                .post(Endpoint.completePembayaran)
                 .then()
                 .body(matchesJsonSchemaInClasspath("JSONSchema/PembelianPulsa/CartComplete_81.json"))
                 .statusCode(200);
@@ -261,7 +261,7 @@ public class PembelianPulsaSteps extends Steps {
                     .header("Authorization", "Bearer " + token)
                     .body(processCart)
                 .when()
-                    .post(Endpoint.process_cart)
+                    .post(Endpoint.prosesPembayaran)
                 .then()
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PembelianPulsa/CartProcess_NullPayment.json"))
                     .statusCode(200);
@@ -292,7 +292,7 @@ public class PembelianPulsaSteps extends Steps {
                     .header("Authorization", "Bearer " + token)
                     .body(ctCart)
                 .when()
-                    .post(Endpoint.complete_cart)
+                    .post(Endpoint.completePembayaran)
                 .then()
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PembelianPulsa/CartComplete_NullPayment.json"))
                     .statusCode(200);
