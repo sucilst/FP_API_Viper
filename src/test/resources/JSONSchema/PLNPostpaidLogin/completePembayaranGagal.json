@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "rescode": {
+      "type": "string"
+    },
+    "message": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "body"
+      ]
+    },
+    "data": {
+      "type": "array",
+      "items": {}
+    }
+  },
+  "required": [
+    "rescode",
+    "message",
+    "data"
+  ]
+}

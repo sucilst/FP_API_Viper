@@ -1,0 +1,295 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "rescode": {
+      "type": "string"
+    },
+    "message": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "body"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "success_message": {
+          "type": "string"
+        },
+        "instruction": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "title",
+                "content"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "title",
+                "content"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "title",
+                "content"
+              ]
+            }
+          ]
+        },
+        "google_voucher_code": {
+          "type": "string"
+        },
+        "google_serial_number": {
+          "type": "string"
+        },
+        "cart": {
+          "type": "object",
+          "properties": {
+            "pane": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "string"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    },
+                    "product_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "title",
+                    "body",
+                    "amount",
+                    "product_id"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "string"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "title",
+                    "body",
+                    "amount"
+                  ]
+                }
+              ]
+            },
+            "transaction_created": {
+              "type": "string"
+            },
+            "no_rek": {
+              "type": "string"
+            },
+            "qr_url": {
+              "type": "string"
+            },
+            "deeplink_url": {
+              "type": "string"
+            },
+            "payment_title": {
+              "type": "string"
+            },
+            "payment_details": {
+              "type": "string"
+            },
+            "total": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "body": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "title",
+                "body",
+                "amount"
+              ]
+            }
+          },
+          "required": [
+            "pane",
+            "transaction_created",
+            "no_rek",
+            "qr_url",
+            "deeplink_url",
+            "payment_title",
+            "payment_details",
+            "total"
+          ]
+        },
+        "order_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "success_message",
+        "instruction",
+        "google_voucher_code",
+        "google_serial_number",
+        "cart",
+        "order_id"
+      ]
+    },
+    "sepulsa_messages": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  },
+  "required": [
+    "rescode",
+    "message",
+    "data",
+    "sepulsa_messages"
+  ]
+}
