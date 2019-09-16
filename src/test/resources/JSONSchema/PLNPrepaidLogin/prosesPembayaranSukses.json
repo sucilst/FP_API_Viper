@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "rescode": {
+      "type": "string"
+    },
+    "message": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "body"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "order_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "order_id"
+      ]
+    },
+    "sepulsa_messages": {
+      "type": "object",
+      "properties": {
+        "warning": {
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "required": [
+        "warning"
+      ]
+    }
+  },
+  "required": [
+    "rescode",
+    "message",
+    "data",
+    "sepulsa_messages"
+  ]
+}

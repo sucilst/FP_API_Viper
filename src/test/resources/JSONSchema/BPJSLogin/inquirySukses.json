@@ -1,0 +1,144 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "rescode": {
+      "type": "string"
+    },
+    "message": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "body"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "trx_type": {
+          "type": "string"
+        },
+        "product_type": {
+          "type": "string"
+        },
+        "stan": {
+          "type": "string"
+        },
+        "premi": {
+          "type": "string"
+        },
+        "admin_charge": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        },
+        "datetime": {
+          "type": "string"
+        },
+        "merchant_code": {
+          "type": "string"
+        },
+        "no_va": {
+          "type": "string"
+        },
+        "no_va_kk": {
+          "type": "string"
+        },
+        "periode": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "va_count": {
+          "type": "string"
+        },
+        "kode_cabang": {
+          "type": "string"
+        },
+        "nama_cabang": {
+          "type": "string"
+        },
+        "sisa": {
+          "type": "string"
+        },
+        "sw_reff": {
+          "type": "string"
+        },
+        "kode_loket": {
+          "type": "string"
+        },
+        "nama_loket": {
+          "type": "string"
+        },
+        "alamat_loket": {
+          "type": "string"
+        },
+        "phone_loket": {
+          "type": "string"
+        },
+        "kode_kab_kota": {
+          "type": "string"
+        },
+        "status": {
+          "type": "boolean"
+        },
+        "response_code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "rc": {
+          "type": "string"
+        },
+        "trx_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "trx_type",
+        "product_type",
+        "stan",
+        "premi",
+        "admin_charge",
+        "amount",
+        "datetime",
+        "merchant_code",
+        "no_va",
+        "no_va_kk",
+        "periode",
+        "name",
+        "va_count",
+        "kode_cabang",
+        "nama_cabang",
+        "sisa",
+        "sw_reff",
+        "kode_loket",
+        "nama_loket",
+        "alamat_loket",
+        "phone_loket",
+        "kode_kab_kota",
+        "status",
+        "response_code",
+        "message",
+        "rc",
+        "trx_id"
+      ]
+    }
+  },
+  "required": [
+    "rescode",
+    "message",
+    "data"
+  ]
+}
