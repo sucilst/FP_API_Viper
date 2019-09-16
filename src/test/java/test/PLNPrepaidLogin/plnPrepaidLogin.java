@@ -53,6 +53,11 @@ public class plnPrepaidLogin extends SerenityStory {
     }
 
     //SCENARIO 3
+    @When("Masukkan customer number dan product id yang valid untuk proses inquiry")
+    public void whenMasukkanCustomerNumberDanProductIdYangValidUntukProsesInquiry() {
+        step.inquiry("01428800700", "286", "00", "");
+    }
+
     @When("Masukkan <customerNumber> dan <productId> dan <type> (invalid) untuk proses cart add (prepaid)")
     public void whenMasukkancustomerNumberDanproductIdDantypeinvalidUntukProsesCartAddPrepaid(String customerNumber, String productId, String type) {
         step.addCartGagal(customerNumber, productId, type);
@@ -100,5 +105,29 @@ public class plnPrepaidLogin extends SerenityStory {
     public void thenProsesCompleteSelectPaymentMethodGagalDanMendapatrescodeDanpesanprepaid(String rescode, String pesan) {
         step.validateCompletePembayaranGagal(rescode, pesan);
     }
+
+    //SCENARIO 6
+    @When("Pilih metode <pembayaran>, <cekCC> yang diinginkan untuk split dengan sepulsa kredit yang dimiliki (prepaid)")
+    public void whenPilihMetodepembayarancekCCYangDiinginkanUntukSplitDenganSepulsaKreditYangDimilikiprepaid(String pembayaran, String cekCC) {
+        step.selectPayment(pembayaran, "00", "");
+        step.prosesPembayaran(pembayaran, cekCC, "00", "");
+    }
+
+    @Then("Proses transaksi PLN Postpaid terbayar dengan mendapat <rescode> dan <pesan> (prepaid)")
+    public void thenProsesTransaksiPLNPostpaidTerbayarDenganMendapatrescodeDanpesanprepaid(String rescode, String pesan) {
+        step.completePembayaran(rescode, pesan);
+    }
+
+    //SCENARIO 7
+    @When("Cek metode pembayaran yang tersedia (prepaid)")
+    public void whenCekMetodePembayaranYangTersediaprepaid() {
+        step.cekPaymentList();
+    }
+
+    @Then("Tidak dapat melakukan pembayaran menggunakan sepulsa credit, karena dana yang dimiliki 0 serta mendapat <rescode> dan <pesan> (prepaid)")
+    public void thenTidakDapatMelakukanPembayaranMenggunakanSepulsaCreditKarenaDanaYangDimiliki0SertaMendapatrescodeDanpesanprepaid(String rescode, String pesan) {
+        step.validateCekPaymentList(rescode, pesan);
+    }
+
 
 }

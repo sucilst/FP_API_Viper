@@ -13,4 +13,7 @@ public interface Endpoint {
     String getAnonimToken = base + "/get_token";
 
     String inquiryBPJS = base + "/bpjs/inquiry";
+    String reqOTP = base + "/otp/request";
+    String validateOTP = base + "/otp/verification";
+    String cekPaymentList = base + "/checkout_payment_list";
 }

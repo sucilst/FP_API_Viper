@@ -1,4 +1,5 @@
-Meta: Transaksi PLN Postpaid
+Meta:
+@PLNPostpaid
 
 Narrative:
 Sebagai user
@@ -15,10 +16,10 @@ Then Proses pembayaran tagihan PLN Postpaid terbayarkan dan mendapat <rescode> d
 
 Examples:
 |email                 |password        |customerNumber|productId|type        |pembayaran                         |cekCC|rescode|pesan|
-|tester-tara@gmail.com |sepulsa123      |512345610000  |614      |pln_postpaid|commerce_payment_atm_mandiri       |no   |00     |     |
-|tester-tara@gmail.com |sepulsa123      |512345610000  |614      |pln_postpaid|rules_bca_virtual_account          |no   |00     |     |
-|tester-tara@gmail.com |sepulsa123      |512345610000  |614      |pln_postpaid|rules_permata_virtual_account      |no   |00     |     |
-|tester-tara@gmail.com |sepulsa123      |512345600003  |614      |pln_postpaid|commerce_payment_commerce_veritrans|cc   |00     |     |
+|farras@alterra.id     |greenday89      |512345610000  |614      |pln_postpaid|commerce_payment_atm_mandiri       |no   |00     |     |
+|farras@alterra.id     |greenday89      |512345610000  |614      |pln_postpaid|rules_bca_virtual_account          |no   |00     |     |
+|farras@alterra.id     |greenday89      |512345610000  |614      |pln_postpaid|rules_permata_virtual_account      |no   |00     |     |
+|farras@alterra.id     |greenday89      |512345600003  |614      |pln_postpaid|commerce_payment_commerce_veritrans|cc   |00     |     |
 |taratester02@gmail.com|testersepulsa123|512345610000  |614      |pln_postpaid|commerce_payment_payment_commerce_2|sc   |00     |     |
 
 Scenario: Inquiry Gagal (invalid product id)
@@ -28,22 +29,29 @@ When Masukkan <customerNumber> dan <productId> (invalid) untuk proses inquiry da
 Then Inquiry gagal
 
 Examples:
-|email                 |password        |customerNumber|productId|rescode|pesan             |
-|tester-tara@gmail.com |sepulsa123      |512345610000  |         |63     |Product not found.|
-|tester-tara@gmail.com |sepulsa123      |512345610000  |lolo     |63     |Product not found.|
+|email             |password        |customerNumber|productId|rescode|pesan                           |
+|farras@alterra.id |greenday89      |512345610000  |         |63     |Product not found.              |
+|farras@alterra.id |greenday89      |512345610000  |lolo     |63     |Product not found.              |
+|farras@alterra.id |greenday89      |512345610000  |@##@     |63     |Product not found.              |
+|farras@alterra.id |greenday89      |9876          |614      |       |                                |
+|farras@alterra.id |greenday89      |              |         |40     |No Pelanggan salah/ belum aktif.|
+|farras@alterra.id |greenday89      |              |614      |40     |No Pelanggan salah/ belum aktif.|
+|farras@alterra.id |greenday89      |hehehehe      |614      |       |                                |
+|farras@alterra.id |greenday89      |*&academy&*   |614      |       |                                |
 
 Scenario: Add Cart Gagal (invalid product id / type)
 Given User sudah login dengan <email> dan <password>
 And Sudah di halaman pembayaran PLN Postpaid
-When Masukkan <customerNumber> dan <productId> dan <type> (invalid) untuk proses cart add dan mendapat <rescode> dan <pesan>
+When Masukkan customer number dan product id yang valid untuk proses inquiry
+And Masukkan <customerNumber> dan <productId> dan <type> (invalid) untuk proses cart add dan mendapat <rescode> dan <pesan>
 Then Proses cart add gagal
 
 Examples:
-|email                 |password        |customerNumber|productId|type         |rescode|pesan             |
-|tester-tara@gmail.com |sepulsa123      |512345610000  |123      |pln_postpaid |63     |Product not found.|
-|tester-tara@gmail.com |sepulsa123      |512345610000  |         |             |63     |Product not found.|
-|tester-tara@gmail.com |sepulsa123      |512345610000  |614      |             |63     |Product not found.|
-|tester-tara@gmail.com |sepulsa123      |512345610000  |         |123124       |63     |Product not found.|
+|email             |password        |customerNumber|productId|type         |rescode|pesan             |
+|farras@alterra.id |greenday89      |512345610000  |123      |pln_postpaid |63     |Product not found.|
+|farras@alterra.id |greenday89      |512345610000  |         |             |63     |Product not found.|
+|farras@alterra.id |greenday89      |512345610000  |614      |             |63     |Product not found.|
+|farras@alterra.id |greenday89      |512345610000  |         |123124       |63     |Product not found.|
 
 Scenario: Process Gagal (invalid payment method)
 Given User sudah login dengan <email> dan <password>
@@ -54,9 +62,9 @@ And Masukkan metode <pembayaran> invalid dan mendapat <rescode> dan <pesan>
 Then Proses gagal
 
 Examples:
-|email                 |password        |customerNumber|productId|type        |pembayaran       |rescode|pesan|
-|tester-tara@gmail.com |sepulsa123      |512345610000  |614      |pln_postpaid|                 |00     |     |
-|tester-tara@gmail.com |sepulsa123      |512345610000  |614      |pln_postpaid|pembayaran_tunai |00     |     |
+|email             |password        |customerNumber|productId|type        |pembayaran       |rescode|pesan|
+|farras@alterra.id |greenday89      |512345610000  |614      |pln_postpaid|                 |00     |     |
+|farras@alterra.id |greenday89      |512345610000  |614      |pln_postpaid|pembayaran_tunai |00     |     |
 
 Scenario: Complete Select Payment Method Gagal (invalid order id)
 Given User sudah login dengan <email> dan <password>
@@ -68,15 +76,31 @@ And Mendapat <rescode> dan <pesan> setelah memasukkan <orderId> invalid
 Then Proses complete select payment method gagal
 
 Examples:
-|email                 |password        |customerNumber|productId|type        |pembayaran                         |cekCC|orderId|rescode|pesan                 |rescode1|pesan1|
-|tester-tara@gmail.com |sepulsa123      |512345610000  |614      |pln_postpaid|commerce_payment_atm_mandiri       |no   |12     |81     |Order Tidak Ditemukan.|00     |       |
-|tester-tara@gmail.com |sepulsa123      |512345610000  |614      |pln_postpaid|commerce_payment_atm_mandiri       |no   |       |81     |Order Tidak Ditemukan.|00     |       |
+|email             |password        |customerNumber|productId|type        |pembayaran                         |cekCC|orderId|rescode|pesan                 |rescode1|pesan1|
+|farras@alterra.id |greenday89      |512345610000  |614      |pln_postpaid|commerce_payment_atm_mandiri       |no   |12     |81     |Order Tidak Ditemukan.|00     |       |
+|farras@alterra.id |greenday89      |512345610000  |614      |pln_postpaid|commerce_payment_atm_mandiri       |no   |       |81     |Order Tidak Ditemukan.|00     |       |
 
+Scenario: Transaki PLN Postpaid dengan menggunakan sepulsa credit (sepulsa credit <= harga transaksi)
+Given User sudah login dengan <email> dan <password>
+And Sudah di halaman pembayaran PLN Postpaid
+When Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode> dan <pesan>
+And Masukkan <customerNumber> dan <productId> dan <type> untuk proses cart add dan mendapat <rescode> dan <pesan>
+And Pilih metode <pembayaran>, <cekCC> yang diinginkan untuk split dengan sepulsa kredit yang dimiliki
+Then Proses transaksi PLN Postpaid terbayar dengan mendapat <rescode> dan <pesan>
 
+Examples:
+|email                |password    |customerNumber|productId|type        |pembayaran                  |cekCC|rescode|pesan|
+|rakaditya@alterra.id |rakaganteng |512345610000  |614      |pln_postpaid|commerce_payment_atm_mandiri|no   |00     |     |
 
+Scenario: Transaki PLN Postpaid dengan menggunakan sepulsa credit (sepulsa credit = 0)
+Given User sudah login dengan <email> dan <password>
+And Sudah di halaman pembayaran PLN Postpaid
+When Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode> dan <pesan>
+And Masukkan <customerNumber> dan <productId> dan <type> untuk proses cart add dan mendapat <rescode> dan <pesan>
+And Cek metode pembayaran yang tersedia
+Then Tidak dapat melakukan pembayaran menggunakan sepulsa credit, karena dana yang dimiliki 0 serta mendapat <rescode> dan <pesan>
 
-
-
-
-
+Examples:
+|email            |password   |customerNumber|productId|type        |rescode|pesan|
+|farras@alterra.id|greenday89 |512345610000  |614      |pln_postpaid|00     |     |
 
