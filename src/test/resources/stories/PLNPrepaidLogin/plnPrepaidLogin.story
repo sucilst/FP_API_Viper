@@ -61,6 +61,8 @@ Examples:
 |email                 |password        |customerNumber|productId|type        |pembayaran                 |rescode|pesan|
 |tester-tara@gmail.com |sepulsa123      |01428800700   |286      |pln_prepaid |                           |00     |     |
 |tester-tara@gmail.com |sepulsa123      |01428800700   |286      |pln_prepaid |pembayaran_via_dompet_taryo|00     |     |
+|tester-tara@gmail.com |sepulsa123      |01428800700   |286      |pln_prepaid |#<dompetTebal>#            |00     |     |
+
 
 Scenario: Complete Select Payment Method Gagal (invalid order id)
 Given User sudah login dengan <email> dan <password> (prepaid)

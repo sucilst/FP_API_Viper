@@ -11,4 +11,6 @@ public interface Endpoint {
     String prosesPembayaran = base + "/bumi_checkout/process";
     String completePembayaran = base + "/bumi_checkout/complete";
     String getAnonimToken = base + "/get_token";
+
+    String inquiryBPJS = base + "/bpjs/inquiry";
 }
