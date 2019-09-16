@@ -59,6 +59,10 @@ public class plnPostpaidLogin extends SerenityStory {
     }
 
     //SCENARIO 3
+    @When("Masukkan customer number dan product id yang valid untuk proses inquiry")
+    public void whenMasukkanCustomerNumberDanProductIdYangValidUntukProsesInquiry() {
+        step.inquiry("512345610000", "614", "00", "");
+    }
 
     @When("Masukkan <customerNumber> dan <productId> dan <type> (invalid) untuk proses cart add dan mendapat <rescode> dan <pesan>")
     public void whenMasukkancustomerNumberDanproductIdDantypeinvalidUntukProsesCartAddDanMendapatrescodeDanpesan(String customerNumber, String productId, String type, String rescode, String pesan) {
@@ -103,7 +107,7 @@ public class plnPostpaidLogin extends SerenityStory {
 
     @When("Masukkan <orderId> invalid dan mendapat <rescode> dan <pesan>")
     public void whenMasukkanorderIdInvalidDanMendapatrescodeDanpesan(String orderId, String rescode, String pesan) {
-        step.completePembayaran(rescode, pesan, orderId);
+        //step.completePembayaran(rescode, pesan, orderId);
     }
 
     @When("Mendapat <rescode> dan <pesan> setelah memasukkan <orderId> invalid")
@@ -115,5 +119,29 @@ public class plnPostpaidLogin extends SerenityStory {
     public void thenProsesCompleteSelectPaymentMethodGagal() {
 
     }
+
+    //SCENARIO 6
+    @When("Pilih metode <pembayaran>, <cekCC> yang diinginkan untuk split dengan sepulsa kredit yang dimiliki")
+    public void whenPilihMetodepembayarancekCCYangDiinginkanUntukSplitDenganSepulsaKreditYangDimiliki(String pembayaran, String cekCC) {
+        step.selectPayment(pembayaran, "00", "");
+        step.prosesPembayaran(pembayaran, cekCC, "00", "");
+    }
+
+    @Then("Proses transaksi PLN Postpaid terbayar dengan mendapat <rescode> dan <pesan>")
+    public void thenProsesTransaksiPLNPostpaidTerbayarDenganMendapatrescodeDanpesan(String rescode, String pesan) {
+        step.completePembayaran("00", pesan ,"");
+    }
+
+    //SCENARIO 7
+    @When("Cek metode pembayaran yang tersedia")
+    public void whenCekMetodePembayaranYangTersedia() {
+        step.cekPaymentList();
+    }
+
+    @Then("Tidak dapat melakukan pembayaran menggunakan sepulsa credit, karena dana yang dimiliki 0 serta mendapat <rescode> dan <pesan>")
+    public void thenTidakDapatMelakukanPembayaranMenggunakanSepulsaCreditKarenaDanaYangDimiliki0SertaMendapatrescodeDanpesan(String rescode, String pesan) {
+        step.validateCekPaymentList(rescode, pesan);
+    }
+
 
 }

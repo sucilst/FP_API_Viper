@@ -13,16 +13,26 @@ public class register extends SerenityStory {
 
     @Given("user sudah di halaman register")
     public void givenUserSudahDiHalamanRegister() {
-        System.out.println("Di Halaman Login");
+        System.out.println("Di Halaman Register");
     }
 
-    @When("input <phoneNumber> yang valid dan belum terdaftar dan input <fullName> dan input <email> yang valid dan belum terdaftar dan input <password> dan input <serial> dan input <agent>")
-    public void whenInputphoneNumberYangValidDanBelumTerdaftarDanInputfullNameDanInputemailYangValidDanBelumTerdaftarDanInputpasswordDanInputserialDanInputagent(String phoneNumber, String fullName, String email, String password, String serial, String agent) {
-        step.registerUser(phoneNumber, fullName, email, password, serial, agent);
+    @When("input <phoneNumber> yang valid dan belum terdaftar dan input <fullName> dan input <email> yang valid dan belum terdaftar dan input <password> dan input <serial> dan input <agent> lalu mendapat <rescode> dan <pesan>")
+    public void whenInputphoneNumberYangValidDanBelumTerdaftarDanInputfullNameDanInputemailYangValidDanBelumTerdaftarDanInputpasswordDanInputserialDanInputagentLaluMendapatrescodeDanpesan(String phoneNumber, String fullName, String email, String password, String serial, String agent, String rescode, String pesan) {
+        step.registerUser(phoneNumber, fullName, email, password, serial, agent, rescode, pesan);
     }
 
-    @Then("mendapat status code 200, response code 00 dan response body data access token untuk proses request OTP")
-    public void thenMendapatStatusCode200ResponseCode00DanResponseBodyDataAccessTokenUntukProsesRequestOTP() {
-       step.validateRegisterUser();
+    @When("tunggu kode OTP terkirim setelah input <phoneNumber>, <serial> dan <agent> ke user lalu mendapat <rescode> dan <pesan>")
+    public void whenTungguKodeOTPTerkirimSetelahInputphoneNumberserialDanagentKeUserLaluMendapatrescodeDanpesan(String phoneNumber, String serial, String agent, String rescode, String pesan) {
+        step.requestOTP(phoneNumber, serial, agent, rescode, pesan);
+    }
+
+    @When("input kode OTP")
+    public void whenInputKodeOTP() {
+
+    }
+
+    @Then("registrasi akun baru berhasil, serta mendapat <rescode> dan <pesan>")
+    public void thenRegistrasiAkunBaruBerhasilSertaMendapatrescodeDanpesan() {
+
     }
 }
