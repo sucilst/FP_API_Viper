@@ -74,4 +74,42 @@ public class PembelianPulsa extends SerenityStory {
     public void thenMetodePembayaranTidakTerbaca() {
         pembelianPulsaSteps.completeCartNullPayment();
     }
+
+    //-----------------------------------------------SCENARIO 4---------------------------------------------------------
+
+    @Given("user berada pada halaman utama sepulsa (Sign In) (Sepulsa Kredit)")
+    public void givenUserBeradaPadaHalamanUtamaSepulsaSignInSepulsaKredit() {
+        pembelianPulsaSteps.postLoginSepulsaKredit();
+    }
+
+    @When("memilih <pembayaran> dengan Sepulsa Kredit")
+    public void whenMemilihPembayaranDenganSepulsaKredit(String pembayaran) {
+        pembelianPulsaSteps.updateCart00(pembayaran);
+        pembelianPulsaSteps.processCart00(pembayaran);
+    }
+
+    @Then("user mendapatkan informasi <pembayaran> sukses (Sepulsa Kredit)")
+    public void thenUserMendapatkanInformasiPembayaranSuksesSepulsaKredit(String pembayaran) {
+        pembelianPulsaSteps.completeCart00(pembayaran);
+    }
+
+    //-----------------------------------------------SCENARIO 5---------------------------------------------------------
+
+    @Then("tidak ada opsi pembayaran dengan Sepulsa Kredit (Sepulsa Kredit)")
+    public void thenTidakAdaOpsiPembayaranDenganSepulsaKreditSepulsaKredit() {
+        pembelianPulsaSteps.validateSepulsaKredit0();
+    }
+
+    //-----------------------------------------------SCENARIO 6---------------------------------------------------------
+
+    @When("memilih <pembayaran> dengan Credit Card")
+    public void whenMemilihPembayaranDenganCreditCard(String pembayaran) {
+        pembelianPulsaSteps.updateCart00(pembayaran);
+        pembelianPulsaSteps.processCart00(pembayaran);
+    }
+
+    @Then("user mendapatkan informasi <pembayaran> sukses (Credit Card)")
+    public void thenUserMendapatkanInformasiPembayaranSuksesCreditCard(String pembayaran) {
+        pembelianPulsaSteps.completeCart00(pembayaran);
+    }
 }
