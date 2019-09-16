@@ -1,0 +1,306 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "rescode": {
+      "type": "string"
+    },
+    "message": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "body"
+      ]
+    },
+    "data": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "payment_method": {
+              "type": "string"
+            },
+            "payment_title": {
+              "type": "string"
+            },
+            "payment_detail": {
+              "type": "string"
+            },
+            "installment_detail": {
+              "type": "string"
+            },
+            "installment_data": {
+              "type": "string"
+            },
+            "payment_icon": {
+              "type": "string"
+            },
+            "payment_data": {
+              "type": "null"
+            },
+            "status": {
+              "type": "string"
+            },
+            "inactive_msg": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "payment_method",
+            "payment_title",
+            "payment_detail",
+            "installment_detail",
+            "installment_data",
+            "payment_icon",
+            "payment_data",
+            "status",
+            "inactive_msg"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "payment_method": {
+              "type": "string"
+            },
+            "payment_title": {
+              "type": "string"
+            },
+            "payment_detail": {
+              "type": "string"
+            },
+            "installment_detail": {
+              "type": "string"
+            },
+            "installment_data": {
+              "type": "string"
+            },
+            "payment_icon": {
+              "type": "string"
+            },
+            "payment_data": {
+              "type": "object",
+              "properties": {
+                "bank": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "prefix": {
+                  "type": "string"
+                },
+                "bins": {
+                  "type": "string"
+                },
+                "installment_term": {
+                  "type": "string"
+                },
+                "secure": {
+                  "type": "boolean"
+                },
+                "client_key": {
+                  "type": "string"
+                },
+                "point": {
+                  "type": "string"
+                },
+                "min_point": {
+                  "type": "string"
+                },
+                "saved_card": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "expired": {
+                          "type": "string"
+                        },
+                        "first": {
+                          "type": "string"
+                        },
+                        "last": {
+                          "type": "string"
+                        },
+                        "phone": {
+                          "type": "string"
+                        },
+                        "token": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "expired",
+                        "first",
+                        "last",
+                        "phone",
+                        "token"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "expired": {
+                          "type": "string"
+                        },
+                        "first": {
+                          "type": "string"
+                        },
+                        "last": {
+                          "type": "string"
+                        },
+                        "phone": {
+                          "type": "string"
+                        },
+                        "token": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "expired",
+                        "first",
+                        "last",
+                        "phone",
+                        "token"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "bank",
+                "type",
+                "prefix",
+                "bins",
+                "installment_term",
+                "secure",
+                "client_key",
+                "point",
+                "min_point",
+                "saved_card"
+              ]
+            },
+            "status": {
+              "type": "string"
+            },
+            "inactive_msg": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "payment_method",
+            "payment_title",
+            "payment_detail",
+            "installment_detail",
+            "installment_data",
+            "payment_icon",
+            "payment_data",
+            "status",
+            "inactive_msg"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "payment_method": {
+              "type": "string"
+            },
+            "payment_title": {
+              "type": "string"
+            },
+            "payment_detail": {
+              "type": "string"
+            },
+            "installment_detail": {
+              "type": "string"
+            },
+            "installment_data": {
+              "type": "string"
+            },
+            "payment_icon": {
+              "type": "string"
+            },
+            "payment_data": {
+              "type": "null"
+            },
+            "status": {
+              "type": "string"
+            },
+            "inactive_msg": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "payment_method",
+            "payment_title",
+            "payment_detail",
+            "installment_detail",
+            "installment_data",
+            "payment_icon",
+            "payment_data",
+            "status",
+            "inactive_msg"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "payment_method": {
+              "type": "string"
+            },
+            "payment_title": {
+              "type": "string"
+            },
+            "payment_detail": {
+              "type": "string"
+            },
+            "installment_detail": {
+              "type": "string"
+            },
+            "installment_data": {
+              "type": "string"
+            },
+            "payment_icon": {
+              "type": "string"
+            },
+            "payment_data": {
+              "type": "null"
+            },
+            "status": {
+              "type": "string"
+            },
+            "inactive_msg": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "payment_method",
+            "payment_title",
+            "payment_detail",
+            "installment_detail",
+            "installment_data",
+            "payment_icon",
+            "payment_data",
+            "status",
+            "inactive_msg"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "rescode",
+    "message",
+    "data"
+  ]
+}
