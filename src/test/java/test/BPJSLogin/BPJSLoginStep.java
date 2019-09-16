@@ -142,14 +142,13 @@ public class BPJSLoginStep extends Steps {
         else if (cekCC.equals("cc")){
             reqBody.put("payment_details", new HashMap<String, Object>(){
                 {
-                    put("token", "481111NGBfpYvCeaLxCPEBiYAJhf1114");
+                    put("token", "481111GhNOfTWSddNvEneriQijnB1114");
                 }
             });
             reqBody.put("payment_method", "commerce_veritrans|" + payment);
             reqBody.put("promo_code", "");
             reqBody.put("use_credit", true);
             reqBody.put("user_mail", "coba@alterra.id");
-            //KURANG METODE PEMBAYARAN KARTU KREDIT
         }
         else if (cekCC.equals("sc")){
             reqBody.put("payment_method", "payment_commerce_2|" + payment);
@@ -199,7 +198,6 @@ public class BPJSLoginStep extends Steps {
             String pembayaranActual = SerenityRest.then().extract().path("sepulsa_messages.status[0]");
             Assert.assertTrue(pembayaranActual.equals("Kartu Kredit / Debit: Success, Credit Card transaction is successful"));
             metodePembayaran = "Credit Card";
-
         }
         else {
             SerenityRest
@@ -231,12 +229,29 @@ public class BPJSLoginStep extends Steps {
                 .when()
                     .post(endPoint.completePembayaran);
 
-        if (rescode.equals("00") && (metodePembayaran.equals("Mandiri Virtual Account") || metodePembayaran.equals("BCA Virtual Account") || metodePembayaran.equals("Virtual Account Semua Bank") || metodePembayaran.equals("Credit Card"))) {
+        if (rescode.equals("00") && (metodePembayaran.equals("Mandiri Virtual Account") || metodePembayaran.equals("BCA Virtual Account") || metodePembayaran.equals("Virtual Account Semua Bank"))) {
             SerenityRest
                     .then()
                     .statusCode(200)
                     .body(matchesJsonSchemaInClasspath("JSONSchema/BPJSLogin/completePembayaranSukses.json"));
 
+            String cekOrder = SerenityRest.then().extract().path("data.order_id");
+            String pembayaranActual = SerenityRest.then().extract().path("data.cart.payment_title");
+
+            Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
+            Assert.assertTrue(cekOrder.equals(noOrder));
+        }
+        else if (rescode.equals("00") && (metodePembayaran.equals("Credit Card"))) {
+            SerenityRest
+                    .then()
+                    .statusCode(200)
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/BPJSLogin/completePembayaranCCSukses.json"));
+
+            String cekOrder = SerenityRest.then().extract().path("data.order_id");
+            String pembayaranActual = SerenityRest.then().extract().path("data.cart.payment_title");
+
+            Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
+            Assert.assertTrue(cekOrder.equals(noOrder));
         }
         else if (rescode.equals("00") && (metodePembayaran.equals("Free Order"))) {
             SerenityRest

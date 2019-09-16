@@ -54,6 +54,11 @@ public class BPJSLogin extends SerenityStory {
     }
 
     //Scenario 3
+    @When("Masukkan customer number, payment period dan product id yang valid untuk proses inquiry")
+    public void whenMasukkanCustomerNumberPaymentPeriodDanProductIdYangValidUntukProsesInquiry() {
+        step.inquiry("0000001430071801", "383", "01", "00", "");
+    }
+
     @When("Masukkan <customerNumber> dan <productId> dan <type> (invalid) untuk proses cart add (BPJS)")
     public void whenMasukkancustomerNumberDanproductIdDantypeinvalidUntukProsesCartAddBPJS(String customerNumber, String productId, String type) {
         step.addCartGagal(customerNumber, productId, type);
