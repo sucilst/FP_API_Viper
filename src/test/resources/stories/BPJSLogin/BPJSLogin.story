@@ -85,3 +85,27 @@ Examples:
 |farras@alterra.id |greenday89      |0000001430071801 |383      |01           |bpjs_kesehatan|commerce_payment_atm_mandiri |no   |        |81     |Order Tidak Ditemukan.|00     |       |
 |farras@alterra.id |greenday89      |0000001430071801 |383      |01           |bpjs_kesehatan|commerce_payment_atm_mandiri |no   |cobain  |81     |Order Tidak Ditemukan.|00     |       |
 |farras@alterra.id |greenday89      |0000001430071801 |383      |01           |bpjs_kesehatan|commerce_payment_atm_mandiri |no   |*#alta#*|81     |Order Tidak Ditemukan.|00     |       |
+
+Scenario: Transaki BPJS dengan menggunakan sepulsa credit (sepulsa credit <= harga transaksi)
+Given User sudah login dengan <email> dan <password> (prepaid)
+And Sudah di halaman pembayaran BPJS (prepaid)
+When Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode> dan <pesan> (prepaid)
+And Masukkan <customerNumber> dan <productId> dan <type> untuk proses cart add dan mendapat <rescode> dan <pesan> (prepaid)
+And Pilih metode <pembayaran>, <cekCC> yang diinginkan untuk split dengan sepulsa kredit yang dimiliki (prepaid)
+Then Proses transaksi PLN Postpaid terbayar dengan mendapat <rescode> dan <pesan> (prepaid)
+
+Examples:
+|email                |password    |customerNumber|productId|type       |pembayaran               |cekCC|rescode|pesan|
+|rakaditya@alterra.id |rakaganteng |01428800700   |286      |pln_prepaid|rules_bca_virtual_account|no   |00     |     |
+
+Scenario: Transaki BPJS dengan menggunakan sepulsa credit (sepulsa credit = 0)
+Given User sudah login dengan <email> dan <password> (prepaid)
+And Sudah di halaman pembayaran BPJS (prepaid)
+When Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode> dan <pesan> (prepaid)
+And Masukkan <customerNumber> dan <productId> dan <type> untuk proses cart add dan mendapat <rescode> dan <pesan> (prepaid)
+And Cek metode pembayaran yang tersedia (prepaid)
+Then Tidak dapat melakukan pembayaran menggunakan sepulsa credit, karena dana yang dimiliki 0 serta mendapat <rescode> dan <pesan> (prepaid)
+
+Examples:
+|email            |password   |customerNumber|productId|type       |rescode|pesan|
+|farras@alterra.id|greenday89 |01428800700   |286      |pln_prepaid|00     |     |
