@@ -13,6 +13,7 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 public class PembelianPulsaSteps extends Steps {
     String token;
     String orderId;
+    String productId;
 
     public void postLogin() {
         Map<String, Object> loginToken = new HashMap<>();
@@ -90,6 +91,8 @@ public class PembelianPulsaSteps extends Steps {
 
         String product = SerenityRest.then().extract().path("data.pane[0].product_id");
         Assert.assertTrue(product.equals(product_id));
+
+        productId = product;
     }
 
     public void updateCart00(String pembayaran) {
@@ -288,6 +291,9 @@ public class PembelianPulsaSteps extends Steps {
 
         String order = SerenityRest.then().extract().path("data.order_id");
         Assert.assertTrue(order.equals(orderId));
+
+        String product = SerenityRest.then().extract().path("data.cart.pane[0].product_id");
+        Assert.assertTrue(product.equals(productId));
 
         String payment = SerenityRest.then().extract().path("data.cart.payment_title");
 
