@@ -112,4 +112,11 @@ public class PembelianPulsa extends SerenityStory {
     public void thenUserMendapatkanInformasiPembayaranSuksesCreditCard(String pembayaran) {
         pembelianPulsaSteps.completeCart00(pembayaran);
     }
+
+    //-----------------------------------------------SCENARIO 7---------------------------------------------------------
+
+    @Then("user mendapatkan notifikasi <pembayaran> is Invalid (83)")
+    public void thenUserMendapatkanNotifikasiPembayaranIsInvalid83(String pembayaran) {
+
+    }
 }
