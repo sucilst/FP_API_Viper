@@ -80,7 +80,7 @@ Examples:
 |farras@alterra.id |greenday89      |512345610000  |614      |pln_postpaid|commerce_payment_atm_mandiri       |no   |12     |81     |Order Tidak Ditemukan.|00     |       |
 |farras@alterra.id |greenday89      |512345610000  |614      |pln_postpaid|commerce_payment_atm_mandiri       |no   |       |81     |Order Tidak Ditemukan.|00     |       |
 
-Scenario: Transaki PLN Postpaid dengan menggunakan sepulsa credit (sepulsa credit <= harga transaksi)
+Scenario: Transaksi PLN Postpaid dengan menggunakan sepulsa credit (sepulsa credit <= harga transaksi)
 Given User sudah login dengan <email> dan <password>
 And Sudah di halaman pembayaran PLN Postpaid
 When Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode> dan <pesan>
@@ -92,7 +92,7 @@ Examples:
 |email                |password    |customerNumber|productId|type        |pembayaran                  |cekCC|rescode|pesan|
 |rakaditya@alterra.id |rakaganteng |512345610000  |614      |pln_postpaid|commerce_payment_atm_mandiri|no   |00     |     |
 
-Scenario: Transaki PLN Postpaid dengan menggunakan sepulsa credit (sepulsa credit = 0)
+Scenario: Transaksi PLN Postpaid dengan menggunakan sepulsa credit (sepulsa credit = 0)
 Given User sudah login dengan <email> dan <password>
 And Sudah di halaman pembayaran PLN Postpaid
 When Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode> dan <pesan>
@@ -103,4 +103,3 @@ Then Tidak dapat melakukan pembayaran menggunakan sepulsa credit, karena dana ya
 Examples:
 |email            |password   |customerNumber|productId|type        |rescode|pesan|
 |farras@alterra.id|greenday89 |512345610000  |614      |pln_postpaid|00     |     |
-

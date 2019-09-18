@@ -140,7 +140,7 @@ public class plnPrepaidLoginStep {
             reqBody.put("payment_method", "commerce_veritrans|" + payment);
             reqBody.put("promo_code", "");
             reqBody.put("use_credit", true);
-            reqBody.put("user_mail", "coba@alterra.id");
+            reqBody.put("usermail", "coba@alterra.id");
         }
         else if (cekCC.equals("cc")){
             reqBody.put("payment_details", new HashMap<String, Object>(){
@@ -151,13 +151,13 @@ public class plnPrepaidLoginStep {
             reqBody.put("payment_method", "commerce_veritrans|" + payment);
             reqBody.put("promo_code", "");
             reqBody.put("use_credit", true);
-            reqBody.put("user_mail", "coba@alterra.id");
+            reqBody.put("usermail", "coba@alterra.id");
         }
         else if (cekCC.equals("sc")){
             reqBody.put("payment_method", "payment_commerce_2|" + payment);
             reqBody.put("promo_code", "");
             reqBody.put("use_credit", true);
-            reqBody.put("user_mail", "coba@alterra.id");
+            reqBody.put("usermail", "coba@alterra.id");
 
             metodePembayaran = "Free Order";
         }
@@ -238,10 +238,8 @@ public class plnPrepaidLoginStep {
                     .statusCode(200)
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPrepaidLogin/completePembayaranSukses.json"));
 
-            String cekOrder = SerenityRest.then().extract().path("data.order_id");
-            String pembayaranActual = SerenityRest.then().extract().path("data.cart.payment_title");
-            Assert.assertTrue(noOrder.equals(cekOrder));
-            Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
+            int price = SerenityRest.then().extract().path("data.cart.total.amount");
+            Assert.assertTrue(totalPrice == price);
         }
         else if (rescode.equals("00") && (metodePembayaran.equals("Credit Card"))) {
             SerenityRest
@@ -249,10 +247,6 @@ public class plnPrepaidLoginStep {
                     .statusCode(200)
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPrepaidLogin/completePembayaranCCSukses.json"));
 
-            String cekOrder = SerenityRest.then().extract().path("data.order_id");
-            String pembayaranActual = SerenityRest.then().extract().path("data.cart.payment_title");
-            Assert.assertTrue(noOrder.equals(cekOrder));
-            Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
         }
         else if (rescode.equals("00") && (metodePembayaran.equals("Free Order"))) {
             SerenityRest
@@ -260,16 +254,22 @@ public class plnPrepaidLoginStep {
                     .statusCode(200)
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPrepaidLogin/completePembayaranSCSukses.json"));
 
+            int price = SerenityRest.then().extract().path("data.cart.total.amount");
+            Assert.assertTrue(totalPrice == price);
+
         }
 
-        int price = SerenityRest.then().extract().path("data.cart.total.amount");
         String resCodeActual = SerenityRest.then().extract().path("rescode");
         String pesanActual = SerenityRest.then().extract().path("message.body");
+        String prodIdAkhir = SerenityRest.then().extract().path("data.cart.pane[0].product_id");
+        String cekOrder = SerenityRest.then().extract().path("data.order_id");
+        String pembayaranActual = SerenityRest.then().extract().path("data.cart.payment_title");
 
-        System.out.println("Harga awal : " + totalPrice + "Harga Akhir : " + price);
-        Assert.assertTrue(totalPrice == price);
         Assert.assertTrue(rescode.equals(resCodeActual));
         Assert.assertTrue(pesan.equals(pesanActual));
+        Assert.assertTrue(prodId.equals(prodIdAkhir));
+        Assert.assertTrue(noOrder.equals(cekOrder));
+        Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
     }
 
     public void inquiryGagal (String customerNumber, String productId) {
@@ -346,7 +346,7 @@ public class plnPrepaidLoginStep {
         reqBody.put("payment_method", pembayaran);
         reqBody.put("promo_code", "");
         reqBody.put("use_credit", true);
-        reqBody.put("user_mail", "coba@alterra.id");
+        reqBody.put("usermail", "coba@alterra.id");
 
         SerenityRest
                 .given()

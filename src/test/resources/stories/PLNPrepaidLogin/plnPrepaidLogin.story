@@ -15,7 +15,7 @@ And Pilih metode <pembayaran> dan <cekCC> dan mendapat <rescode> dan <pesan> (pr
 Then Proses pembayaran tagihan PLN Prepaid terbayarkan dan mendapat <rescode> dan <pesan> (prepaid)
 
 Examples:
-|email                 |password        |customerNumber|productId|type       |pembayaran                         |cekCC|rescode|pesan|
+|email                 |password        |customerNumber|productId|type       |pembayaran                          |cekCC|rescode|pesan|
 |farras@alterra.id     |greenday89      |01428800700   |286      |pln_prepaid|commerce_payment_atm_mandiri        |no   |00     |     |
 |farras@alterra.id     |greenday89      |01428800700   |286      |pln_prepaid|rules_bca_virtual_account           |no   |00     |     |
 |farras@alterra.id     |greenday89      |01428800700   |286      |pln_prepaid|rules_permata_virtual_account       |no   |00     |     |
@@ -33,7 +33,8 @@ Examples:
 |farras@alterra.id |greenday89      |01428800700   |         |63     |Product not found.              |
 |farras@alterra.id |greenday89      |01428800700   |cobain   |63     |Product not found.              |
 |farras@alterra.id |greenday89      |01428800700   |@@@      |63     |Product not found.              |
-|farras@alterra.id |greenday89      |1234          |286      |       |                                |
+|farras@alterra.id |greenday89      |01428800700   |010      |63     |Product not found.              |
+|farras@alterra.id |greenday89      |999999999     |286      |       |                                |
 |farras@alterra.id |greenday89      |              |         |40     |No Pelanggan salah/ belum aktif.|
 |farras@alterra.id |greenday89      |              |286      |40     |No Pelanggan salah/ belum aktif.|
 |farras@alterra.id |greenday89      |hahahaha      |286      |       |                                |
@@ -65,10 +66,10 @@ And Masukkan metode <pembayaran> invalid (prepaid)
 Then Proses gagal dan mendapat <rescode> dan <pesan> (prepaid)
 
 Examples:
-|email             |password        |customerNumber|productId|type        |pembayaran                 |rescode|pesan|
-|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid |                           |00     |     |
-|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid |pembayaran_via_dompet_taryo|00     |     |
-|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid |#<dompetTebal>#            |00     |     |
+|email             |password        |customerNumber|productId|type        |pembayaran                  |rescode|pesan|
+|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid |                            |00     |     |
+|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid |pembayaran_via_dompet_taryo |00     |     |
+|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid |#<dompetTebal>#             |00     |     |
 
 
 Scenario: Complete Select Payment Method Gagal (invalid order id)
@@ -81,13 +82,13 @@ And Memasukkan <orderId> invalid (prepaid)
 Then Proses complete select payment method gagal dan mendapat <rescode> dan <pesan> (prepaid)
 
 Examples:
-|email             |password        |customerNumber|productId|type        |pembayaran                  |cekCC|orderId |rescode|pesan                 |rescode1|pesan1|
-|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid|commerce_payment_atm_mandiri |no   |12      |81     |Order Tidak Ditemukan.|00     |       |
-|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid|commerce_payment_atm_mandiri |no   |        |81     |Order Tidak Ditemukan.|00     |       |
-|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid|commerce_payment_atm_mandiri |no   |cobain  |81     |Order Tidak Ditemukan.|00     |       |
-|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid|commerce_payment_atm_mandiri |no   |*#alta#*|81     |Order Tidak Ditemukan.|00     |       |
+|email             |password        |customerNumber|productId|type        |pembayaran                  |cekCC|orderId  |rescode|pesan                 |rescode1|pesan1|
+|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid|commerce_payment_atm_mandiri |no   |12       |81     |Order Tidak Ditemukan.|00     |       |
+|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid|commerce_payment_atm_mandiri |no   |         |81     |Order Tidak Ditemukan.|00     |       |
+|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid|commerce_payment_atm_mandiri |no   |cobain   |81     |Order Tidak Ditemukan.|00     |       |
+|farras@alterra.id |greenday89      |01428800700   |286      |pln_prepaid|commerce_payment_atm_mandiri |no   |*#alta#* |81     |Order Tidak Ditemukan.|00     |       |
 
-Scenario: Transaki PLN Postpaid dengan menggunakan sepulsa credit (sepulsa credit <= harga transaksi)
+Scenario: Transaksi PLN Postpaid dengan menggunakan sepulsa credit (sepulsa credit <= harga transaksi)
 Given User sudah login dengan <email> dan <password> (prepaid)
 And Sudah di halaman pembayaran PLN Prepaid (prepaid)
 When Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode> dan <pesan> (prepaid)
@@ -99,7 +100,7 @@ Examples:
 |email                |password    |customerNumber|productId|type       |pembayaran               |cekCC|rescode|pesan|
 |rakaditya@alterra.id |rakaganteng |01428800700   |286      |pln_prepaid|rules_bca_virtual_account|no   |00     |     |
 
-Scenario: Transaki PLN Postpaid dengan menggunakan sepulsa credit (sepulsa credit = 0)
+Scenario: Transaksi PLN Postpaid dengan menggunakan sepulsa credit (sepulsa credit = 0)
 Given User sudah login dengan <email> dan <password> (prepaid)
 And Sudah di halaman pembayaran PLN Prepaid (prepaid)
 When Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode> dan <pesan> (prepaid)
