@@ -13,6 +13,7 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 public class PembelianPulsaSteps extends Steps {
     String token;
     String orderId;
+    String productId;
 
     public void postLogin() {
         Map<String, Object> loginToken = new HashMap<>();
@@ -40,8 +41,8 @@ public class PembelianPulsaSteps extends Steps {
 
     public void postLoginSepulsaKredit() {
         Map<String, Object> loginToken = new HashMap<>();
-        loginToken.put("email_or_phone_number", "taratester02@gmail.com");
-        loginToken.put("password", "testersepulsa123");
+        loginToken.put("email_or_phone_number", "rakaditya@alterra.id");
+        loginToken.put("password", "rakaganteng");
 
         SerenityRest
                 .given()
@@ -90,6 +91,8 @@ public class PembelianPulsaSteps extends Steps {
 
         String product = SerenityRest.then().extract().path("data.pane[0].product_id");
         Assert.assertTrue(product.equals(product_id));
+
+        productId = product;
     }
 
     public void updateCart00(String pembayaran) {
@@ -128,6 +131,37 @@ public class PembelianPulsaSteps extends Steps {
 
         String body = SerenityRest.then().extract().path("message.body");
         Assert.assertTrue(body.equals(""));
+    }
+
+    public void processCart83(String pembayaran) {
+        Map<String, Object> processCart = new HashMap<>();
+        processCart.put("payment_method", "commerce_veritrans|" + pembayaran);
+        processCart.put("promo_code", "");
+        processCart.put("use_credit", "true");
+        processCart.put("usermail", "farras@alterra.id");
+
+        SerenityRest
+                .given()
+                    .contentType("application/json")
+                    .header("Source", "phoenix")
+                    .header("User-Agent", "elang")
+                    .header("Authorization", "Bearer " + token)
+                    .body(processCart)
+                .when()
+                    .post(Endpoint.prosesPembayaran)
+                .then()
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PembelianPulsa/CartProcess_83.json"))
+                    .statusCode(200);
+
+        //Validasi
+        String rs = SerenityRest.then().extract().path("rescode");
+        Assert.assertTrue(rs.equals("83"));
+
+        String title = SerenityRest.then().extract().path("message.title");
+        Assert.assertTrue(title.equals("Checkout Error"));
+
+        String body = SerenityRest.then().extract().path("message.body");
+        Assert.assertTrue(body.equals("Virtual Account: One or more parameters in the payload is invalid."));
     }
 
     public void processCart00(String pembayaran) {
@@ -257,6 +291,9 @@ public class PembelianPulsaSteps extends Steps {
 
         String order = SerenityRest.then().extract().path("data.order_id");
         Assert.assertTrue(order.equals(orderId));
+
+        String product = SerenityRest.then().extract().path("data.cart.pane[0].product_id");
+        Assert.assertTrue(product.equals(productId));
 
         String payment = SerenityRest.then().extract().path("data.cart.payment_title");
 

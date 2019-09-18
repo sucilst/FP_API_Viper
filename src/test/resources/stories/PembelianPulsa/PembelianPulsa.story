@@ -16,6 +16,8 @@ Then user mendapatkan informasi No VA <pembayaran> yang sesuai untuk membayar
 Examples:
 |product_id|no_hp|pembayaran|
 |5|081234000001|commerce_payment_atm_mandiri|
+|6|081234000001|rules_bca_virtual_account|
+|483|081234000001|rules_permata_virtual_account|
 
 Scenario: sukses membeli pulsa (Sign In) (Sepulsa Kredit Cukup)
 Given user berada pada halaman utama sepulsa (Sign In) (Sepulsa Kredit)
@@ -80,6 +82,17 @@ When user input type pulsa, <no_hp>, dan <product_id> yang ingin dibeli
 And memilih <pembayaran> yang diinginkan
 And melakukan pembayaran
 Then user mendapatkan notifikasi Order Tidak Ditemukan (81)
+
+Examples:
+|product_id|no_hp|pembayaran|
+|6|081234000001|commerce_payment_atm_mandiri|
+
+Scenario: gagal membeli pulsa (Sign in) (rescode 83)
+Given user berada pada halaman utama sepulsa (Sign In) (Sepulsa Kredit)
+And membuka halaman pembelian pre-paid
+When user input type pulsa, <no_hp>, dan <product_id> yang ingin dibeli
+And melakukan pembayaran
+Then user mendapatkan notifikasi <pembayaran> is Invalid (83)
 
 Examples:
 |product_id|no_hp|pembayaran|
