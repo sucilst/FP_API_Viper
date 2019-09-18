@@ -106,6 +106,30 @@ public class BPJSLogin extends SerenityStory {
         step.validateCompletePembayaranGagal(rescode, pesan);
     }
 
+    //SCENARIO 6
+    @When("Pilih metode <pembayaran>, <cekCC> yang diinginkan untuk split dengan sepulsa kredit yang dimiliki (BPJS)")
+    public void whenPilihMetodepembayarancekCCYangDiinginkanUntukSplitDenganSepulsaKreditYangDimilikiBPJS(String pembayaran, String cekCC) {
+        step.selectPayment(pembayaran, "00", "");
+        step.prosesPembayaran(pembayaran, cekCC, "00", "");
+    }
+
+    @Then("Proses transaksi PLN Postpaid terbayar dengan mendapat <rescode> dan <pesan> (BPJS)")
+    public void thenProsesTransaksiPLNPostpaidTerbayarDenganMendapatrescodeDanpesanBPJS(String rescode, String pesan) {
+        step.completePembayaran(rescode, pesan);
+    }
+
+    //Scenario 7
+    @When("Cek metode pembayaran yang tersedia (BPJS)")
+    public void whenCekMetodePembayaranYangTersediaBPJS() {
+        step.cekPaymentList();
+    }
+
+    @Then("Tidak dapat melakukan pembayaran menggunakan sepulsa credit, karena dana yang dimiliki 0 serta mendapat <rescode> dan <pesan> (BPJS)")
+    public void thenTidakDapatMelakukanPembayaranMenggunakanSepulsaCreditKarenaDanaYangDimiliki0SertaMendapatrescodeDanpesanBPJS(String rescode, String pesan) {
+        step.validateCekPaymentList(rescode, pesan);
+    }
+
+
 
 
 }

@@ -1,4 +1,5 @@
-Meta: Login Akun
+Meta:
+@Login
 
 Narrative:
 Sebagai user
@@ -12,7 +13,7 @@ Then Berhasil login dengan mendapat <rescode> dan <pesan>
 
 Examples:
 |username             |password   |rescode|pesan                             |
-|tester-tara@gmail.com|sepulsa123 |00     |                                  |
+|farras@alterra.id    |greenday89 |00     |                                  |
 |                     |greenday89 |86     |Akun di block. Silahkan kontak CS.|
 |farras@alterra.id    |           |24     |Email atau password salah.        |
 |                     |           |86     |Akun di block. Silahkan kontak CS.|

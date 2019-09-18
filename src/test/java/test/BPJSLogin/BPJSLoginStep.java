@@ -14,6 +14,7 @@ public class BPJSLoginStep extends Steps {
 
     Endpoint endPoint;
     String accessToken, prodId, metodePembayaran, noOrder;
+    int totalPrice;
 
     public void loginForGetToken(String username, String password){
         Map<String, Object> reqBody =new HashMap<>();
@@ -98,6 +99,7 @@ public class BPJSLoginStep extends Steps {
         Assert.assertTrue(pesan.equals(pesanActual));
         Assert.assertTrue(productId.equals(prodIdActual));
 
+        totalPrice = SerenityRest.then().extract().path("data.total[0].amount");
         prodId = productId;
     }
 
@@ -235,11 +237,8 @@ public class BPJSLoginStep extends Steps {
                     .statusCode(200)
                     .body(matchesJsonSchemaInClasspath("JSONSchema/BPJSLogin/completePembayaranSukses.json"));
 
-            String cekOrder = SerenityRest.then().extract().path("data.order_id");
-            String pembayaranActual = SerenityRest.then().extract().path("data.cart.payment_title");
-
-            Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
-            Assert.assertTrue(cekOrder.equals(noOrder));
+            int price = SerenityRest.then().extract().path("data.cart.total.amount");
+            Assert.assertTrue(totalPrice == price);
         }
         else if (rescode.equals("00") && (metodePembayaran.equals("Credit Card"))) {
             SerenityRest
@@ -247,11 +246,8 @@ public class BPJSLoginStep extends Steps {
                     .statusCode(200)
                     .body(matchesJsonSchemaInClasspath("JSONSchema/BPJSLogin/completePembayaranCCSukses.json"));
 
-            String cekOrder = SerenityRest.then().extract().path("data.order_id");
-            String pembayaranActual = SerenityRest.then().extract().path("data.cart.payment_title");
-
-            Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
-            Assert.assertTrue(cekOrder.equals(noOrder));
+            int price = SerenityRest.then().extract().path("data.cart.total.amount");
+            Assert.assertTrue(totalPrice == price);
         }
         else if (rescode.equals("00") && (metodePembayaran.equals("Free Order"))) {
             SerenityRest
@@ -261,15 +257,18 @@ public class BPJSLoginStep extends Steps {
 
         }
 
-        String cekOrder = SerenityRest.then().extract().path("data.order_id");
-        String pembayaranActual = SerenityRest.then().extract().path("data.cart.payment_title");
         String resCodeActual = SerenityRest.then().extract().path("rescode");
         String pesanActual = SerenityRest.then().extract().path("message.body");
+        String prodIdAkhir = SerenityRest.then().extract().path("data.cart.pane[0].product_id");
+        String cekOrder = SerenityRest.then().extract().path("data.order_id");
+        String pembayaranActual = SerenityRest.then().extract().path("data.cart.payment_title");
 
-        Assert.assertTrue(noOrder.equals(cekOrder));
-        Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
         Assert.assertTrue(rescode.equals(resCodeActual));
         Assert.assertTrue(pesan.equals(pesanActual));
+        Assert.assertTrue(prodId.equals(prodIdAkhir));
+        Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
+        Assert.assertTrue(cekOrder.equals(noOrder));
+
     }
 
     public void inquiryGagal (String customerNumber, String productId) {
@@ -405,6 +404,43 @@ public class BPJSLoginStep extends Steps {
 
         Assert.assertTrue(rescode.equals(resCodeActual));
         Assert.assertTrue(pesan.equals(pesanActual));
+    }
+
+    public void cekPaymentList(){
+        SerenityRest
+                .given()
+                    .header("User-Agent", "alta")
+                    .header("Source","phoenix")
+                    .header("Authorization", "Bearer " + accessToken)
+                    .contentType("application/json")
+                .when()
+                    .get(endPoint.cekPaymentList);
+    }
+
+    public void validateCekPaymentList(String rescode, String pesan) {
+        SerenityRest
+                .then()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("JSONSchema/BPJSLogin/cekPaymentList.json"));
+
+        String pembayaran1 = SerenityRest.then().extract().path("data[0].payment_method");
+        String pembayaran2 = SerenityRest.then().extract().path("data[1].payment_method");
+        String pembayaran3 = SerenityRest.then().extract().path("data[2].payment_method");
+        String pembayaran4 = SerenityRest.then().extract().path("data[3].payment_method");
+
+        String resCodeActual = SerenityRest.then().extract().path("rescode");
+        String pesanActual = SerenityRest.then().extract().path("message.body");
+
+        Assert.assertTrue(rescode.equals(resCodeActual));
+        Assert.assertTrue(pesan.equals(pesanActual));
+        System.out.println(pembayaran1);
+        Assert.assertFalse("payment_commerce_2|commerce_payment_payment_commerce_2".equals(pembayaran1));
+        System.out.println(pembayaran2);
+        Assert.assertFalse("payment_commerce_2|commerce_payment_payment_commerce_2".equals(pembayaran2));
+        System.out.println(pembayaran3);
+        Assert.assertFalse("payment_commerce_2|commerce_payment_payment_commerce_2".equals(pembayaran3));
+        System.out.println(pembayaran4);
+        Assert.assertFalse("payment_commerce_2|commerce_payment_payment_commerce_2".equals(pembayaran4));
     }
 
 }
