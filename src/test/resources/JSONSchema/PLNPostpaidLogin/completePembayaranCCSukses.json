@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "rescode": {
       "type": "string"
@@ -63,6 +64,25 @@
                     "body",
                     "amount",
                     "product_id"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "string"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "title",
+                    "body",
+                    "amount"
                   ]
                 },
                 {

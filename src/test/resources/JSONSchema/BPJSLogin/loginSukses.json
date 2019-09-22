@@ -24,12 +24,16 @@
     "data": {
       "type": "object",
       "properties": {
-        "order_id": {
+        "access_token": {
+          "type": "string"
+        },
+        "refresh_token": {
           "type": "string"
         }
       },
       "required": [
-        "order_id"
+        "access_token",
+        "refresh_token"
       ]
     }
   },

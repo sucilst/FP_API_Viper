@@ -38,7 +38,6 @@ public class plnPostpaidLoginStep extends Steps {
         Assert.assertTrue(resCode.equals("00"));
 
         accessToken = SerenityRest.then().extract().path("data.access_token");
-
     }
 
     public void inquiry (String customerNumber, String productId, String rescode, String pesan){
@@ -274,6 +273,7 @@ public class plnPostpaidLoginStep extends Steps {
                     .post(endPoint.completePembayaran);
 
         if (rescode.equals("00") && (metodePembayaran.equals("Mandiri Virtual Account") || metodePembayaran.equals("BCA Virtual Account") || metodePembayaran.equals("Virtual Account Semua Bank"))) {
+            System.out.println("masuk");
             SerenityRest
                     .then()
                     .statusCode(200)
@@ -285,9 +285,14 @@ public class plnPostpaidLoginStep extends Steps {
             String prodIdAkhir = SerenityRest.then().extract().path("data.cart.pane[0].product_id");
 
             Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
-            Assert.assertTrue(cekOrder.equals(noOrder));
+            Assert.assertTrue(noOrder.equals(cekOrder));
             Assert.assertTrue(totalPrice == price);
             Assert.assertTrue(prodId.equals(prodIdAkhir));
+
+            System.out.println("Harga Global : " + price + " Harga : " + totalPrice);
+            System.out.println("Pembayaran Global : " + pembayaranActual + " Pembayaran : " + metodePembayaran);
+            System.out.println("Product ID Global : " + prodIdAkhir + " Product ID : " + prodId);
+            System.out.println("Order ID Global : " + cekOrder + " Order ID : " + noOrder);
         }
         else if (rescode.equals("00") && (metodePembayaran.equals("Credit Card"))) {
             SerenityRest
@@ -300,11 +305,15 @@ public class plnPostpaidLoginStep extends Steps {
             String prodIdAkhir = SerenityRest.then().extract().path("data.cart.pane[0].product_id");
 
             Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
-            Assert.assertTrue(cekOrder.equals(noOrder));
+            Assert.assertTrue(noOrder.equals(cekOrder));
             Assert.assertTrue(prodId.equals(prodIdAkhir));
 
-            int price = SerenityRest.then().extract().path("data.cart.total.amount");
-            System.out.println("harga awal : " + totalPrice + "harga CC : " + price);
+            System.out.println("Pembayaran Global : " + pembayaranActual + " Pembayaran : " + metodePembayaran);
+            System.out.println("Product ID Global : " + prodIdAkhir + " Product ID : " + prodId);
+            System.out.println("Order ID Global : " + cekOrder + " Order ID : " + noOrder);
+
+            //int price = SerenityRest.then().extract().path("data.cart.total.amount");
+            //System.out.println("harga awal : " + totalPrice + "harga CC : " + price);
         }
         else if (rescode.equals("00") && (metodePembayaran.equals("Free Order"))) {
             SerenityRest
@@ -319,8 +328,13 @@ public class plnPostpaidLoginStep extends Steps {
 
             Assert.assertTrue(totalPrice == price);
             Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
-            Assert.assertTrue(cekOrder.equals(noOrder));
+            Assert.assertTrue(noOrder.equals(cekOrder));
             Assert.assertTrue(prodId.equals(prodIdAkhir));
+
+            System.out.println("Harga Global : " + price + " Harga : " + totalPrice);
+            System.out.println("Pembayaran Global : " + pembayaranActual + " Pembayaran : " + metodePembayaran);
+            System.out.println("Product ID Global : " + prodIdAkhir + " Product ID : " + prodId);
+            System.out.println("Order ID Global : " + cekOrder + " Order ID : " + noOrder);
         }
         else if (rescode.equals("81")){
             SerenityRest
@@ -329,14 +343,12 @@ public class plnPostpaidLoginStep extends Steps {
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/completePembayaranGagal.json"));
         }
 
-
         String resCodeActual = SerenityRest.then().extract().path("rescode");
         String pesanActual = SerenityRest.then().extract().path("message.body");
 
         Assert.assertTrue(rescode.equals(resCodeActual));
         Assert.assertTrue(pesan.equals(pesanActual));
     }
-
 
     public void cekPaymentList(){
         SerenityRest

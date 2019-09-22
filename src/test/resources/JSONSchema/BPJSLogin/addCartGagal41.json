@@ -21,21 +21,29 @@
         "body"
       ]
     },
-    "data": {
+    "sepulsa_messages": {
       "type": "object",
       "properties": {
-        "order_id": {
-          "type": "string"
+        "error": {
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ]
         }
       },
       "required": [
-        "order_id"
+        "error"
       ]
     }
   },
   "required": [
     "rescode",
     "message",
-    "data"
+    "sepulsa_messages"
   ]
 }

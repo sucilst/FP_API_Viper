@@ -19,8 +19,8 @@ Examples:
 |farras@alterra.id      |greenday89      |0000001430071807 |383      |01           |bpjs_kesehatan|commerce_payment_atm_mandiri        |no   |00     |     |
 |farras@alterra.id      |greenday89      |0000001430071807 |383      |01           |bpjs_kesehatan|rules_bca_virtual_account           |no   |00     |     |
 |farras@alterra.id      |greenday89      |0000001430071807 |383      |01           |bpjs_kesehatan|rules_permata_virtual_account       |no   |00     |     |
-|farras@alterra.id      |greenday89      |0000001430071801 |383      |01           |bpjs_kesehatan|commerce_payment_commerce_veritrans |cc   |00     |     |
-|taratester02@gmail.com |testersepulsa123|0000001430071802 |383      |01           |bpjs_kesehatan|commerce_payment_payment_commerce_2 |sc   |00     |     |
+|farras@alterra.id      |greenday89      |0000001430071803 |383      |01           |bpjs_kesehatan|commerce_payment_commerce_veritrans |cc   |00     |     |
+|taratester02@gmail.com |testersepulsa123|0000001430071804 |383      |01           |bpjs_kesehatan|commerce_payment_payment_commerce_2 |sc   |00     |     |
 
 Scenario: Inquiry Gagal (invalid customer number / product id)
 Given User sudah login dengan <email> dan <password> (BPJS)
@@ -46,7 +46,7 @@ Examples:
 Scenario: Add Cart Gagal (invalid product id, customer number / type)
 Given User sudah login dengan <email> dan <password> (BPJS)
 And Sudah di halaman pembayaran BPJS (BPJS)
-When Masukkan customer number, payment period dan product id yang valid untuk proses inquiry
+When Masukkan customer number, payment period dan product id yang valid untuk proses inquiry (BPJS)
 And Masukkan <customerNumber> dan <productId> dan <type> (invalid) untuk proses cart add (BPJS)
 Then Proses cart add gagal dan mendapat <rescode> dan <pesan> (BPJS)
 

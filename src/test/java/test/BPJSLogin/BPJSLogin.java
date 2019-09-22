@@ -54,8 +54,8 @@ public class BPJSLogin extends SerenityStory {
     }
 
     //Scenario 3
-    @When("Masukkan customer number, payment period dan product id yang valid untuk proses inquiry")
-    public void whenMasukkanCustomerNumberPaymentPeriodDanProductIdYangValidUntukProsesInquiry() {
+    @When("Masukkan customer number, payment period dan product id yang valid untuk proses inquiry (BPJS)")
+    public void whenMasukkanCustomerNumberPaymentPeriodDanProductIdYangValidUntukProsesInquiryBPJS() {
         step.inquiry("0000001430071807", "383", "01", "00", "");
     }
 
