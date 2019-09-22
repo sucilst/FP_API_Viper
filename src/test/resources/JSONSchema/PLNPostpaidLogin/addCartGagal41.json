@@ -21,25 +21,29 @@
         "body"
       ]
     },
-    "data": {
+    "sepulsa_messages": {
       "type": "object",
       "properties": {
-        "access_token": {
-          "type": "string"
-        },
-        "refresh_token": {
-          "type": "string"
+        "error": {
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ]
         }
       },
       "required": [
-        "access_token",
-        "refresh_token"
+        "error"
       ]
     }
   },
   "required": [
     "rescode",
     "message",
-    "data"
+    "sepulsa_messages"
   ]
 }

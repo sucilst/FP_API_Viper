@@ -53,8 +53,8 @@ public class plnPrepaidLogin extends SerenityStory {
     }
 
     //SCENARIO 3
-    @When("Masukkan customer number dan product id yang valid untuk proses inquiry")
-    public void whenMasukkanCustomerNumberDanProductIdYangValidUntukProsesInquiry() {
+    @When("Masukkan customer number dan product id yang valid untuk proses inquiry (prepaid)")
+    public void whenMasukkanCustomerNumberDanProductIdYangValidUntukProsesInquiryPrepaid() {
         step.inquiry("01428800700", "286", "00", "");
     }
 

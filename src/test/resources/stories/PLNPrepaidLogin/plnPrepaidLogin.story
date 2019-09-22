@@ -44,7 +44,7 @@ Examples:
 Scenario: Add Cart Gagal (invalid product id / type)
 Given User sudah login dengan <email> dan <password> (prepaid)
 And Sudah di halaman pembayaran PLN Prepaid (prepaid)
-When Masukkan customer number dan product id yang valid untuk proses inquiry
+When Masukkan customer number dan product id yang valid untuk proses inquiry (prepaid)
 And Masukkan <customerNumber> dan <productId> dan <type> (invalid) untuk proses cart add (prepaid)
 Then Proses cart add gagal dan mendapat <rescode> dan <pesan> (prepaid)
 

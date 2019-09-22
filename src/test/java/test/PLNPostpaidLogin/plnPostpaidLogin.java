@@ -15,11 +15,6 @@ public class plnPostpaidLogin extends SerenityStory {
         step.loginForGetToken(email, password);
     }
 
-    @Given("User sudah di halaman pembayaran PLN Postpaid")
-    public void givenUserSudahDiHalamanPembayaranPLNPostpaid() {
-        step.getAnonimToken();
-    }
-
     @Given("Sudah di halaman pembayaran PLN Postpaid")
     public void givenSudahDiHalamanPembayaranPLNPostpaid() {
 
