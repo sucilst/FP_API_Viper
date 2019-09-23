@@ -111,3 +111,17 @@ Then Tidak dapat melakukan pembayaran menggunakan sepulsa credit, karena dana ya
 Examples:
 |email            |password   |customerNumber|productId|type       |rescode|pesan|
 |farras@alterra.id|greenday89 |01428800700   |286      |pln_prepaid|00     |     |
+
+Scenario: Transaksi Pembayaran PLN Prepaid Sepulsa Credit (Login)
+Meta:
+@PLNPrepaidSuksesSC
+Given User sudah login dengan <email> dan <password> (prepaid)
+And Sudah di halaman pembayaran PLN Prepaid (prepaid)
+When Masukkan <customerNumber> dan <productId> untuk proses inquiry dan mendapat <rescode> dan <pesan> (prepaid)
+And Masukkan <customerNumber> dan <productId> dan <type> untuk proses cart add dan mendapat <rescode> dan <pesan> (prepaid)
+And Pilih metode <pembayaran> dan <cekCC> dan mendapat <rescode> dan <pesan> (prepaid)
+Then Proses pembayaran tagihan PLN Prepaid terbayarkan dan mendapat <rescode> dan <pesan> (prepaid)
+
+Examples:
+|email                 |password        |customerNumber|productId|type       |pembayaran                          |cekCC|rescode|pesan|
+|taratester02@gmail.com|testersepulsa123|01428800700   |286      |pln_prepaid|commerce_payment_payment_commerce_2 |sc   |00     |     |

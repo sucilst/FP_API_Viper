@@ -112,7 +112,7 @@ Examples:
 |email            |password   |customerNumber|productId|type        |rescode|pesan|
 |farras@alterra.id|greenday89 |512345610000  |614      |pln_postpaid|00     |     |
 
-Scenario: Transaksi Pembayaran PLN Postpaid Mandiri(Login)
+Scenario: Transaksi Pembayaran PLN Postpaid Mandiri (Login)
 Meta:
 @PLNPostpaidSuksesMandiri
 Given User sudah login dengan <email> dan <password>
