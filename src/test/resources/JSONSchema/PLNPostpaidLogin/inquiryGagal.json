@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "rescode": {
       "type": "string"
@@ -19,10 +20,14 @@
         "title",
         "body"
       ]
+    },
+    "data": {
+      "type": "null"
     }
   },
   "required": [
     "rescode",
-    "message"
+    "message",
+    "data"
   ]
 }

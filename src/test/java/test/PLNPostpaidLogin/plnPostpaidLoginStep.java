@@ -3,10 +3,8 @@ package test.PLNPostpaidLogin;
 import net.serenitybdd.rest.SerenityRest;
 import org.jbehave.core.steps.Steps;
 import org.junit.Assert;
-import org.yecht.Data;
 import utils.Endpoint;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,32 +31,13 @@ public class plnPostpaidLoginStep extends Steps {
                     .post(endPoint.login);
         SerenityRest
                 .then()
-                    .statusCode(200);
+                    .statusCode(200)
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/loginSukses.json"));
 
         String resCode = SerenityRest.then().extract().path("rescode");
         Assert.assertTrue(resCode.equals("00"));
 
         accessToken = SerenityRest.then().extract().path("data.access_token");
-
-    }
-
-    public void getAnonimToken(){
-        SerenityRest
-                .given()
-                    .header("User-Agent", "alta")
-                    .header("Source","phoenix")
-                    .contentType("application/json")
-                .when()
-                    .get(endPoint.getAnonimToken);
-        SerenityRest
-                .then()
-                    .statusCode(200);
-
-        String resCode = SerenityRest.then().extract().path("rescode");
-        Assert.assertTrue(resCode.equals("00"));
-
-        accessToken = SerenityRest.then().extract().path("data.access_token");
-
     }
 
     public void inquiry (String customerNumber, String productId, String rescode, String pesan){
@@ -103,7 +82,9 @@ public class plnPostpaidLoginStep extends Steps {
         else {
             SerenityRest
                     .then()
-                    .statusCode(500);
+                    .statusCode(500)
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/inquiryGagal500.json"));
+
         }
 
     }
@@ -136,12 +117,19 @@ public class plnPostpaidLoginStep extends Steps {
             Assert.assertTrue(productId.equals(prodIdActual));
 
             totalPrice = SerenityRest.then().extract().path("data.total[0].amount");
+            prodId = SerenityRest.then().extract().path("data.pane[0].product_id");
         }
-        else if (rescode.equals("63")) {
+        else if (rescode.equals("63") || rescode.equals("99")) {
             SerenityRest
                     .then()
                     .statusCode(200)
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/addCartGagal.json"));
+        }
+        else if (rescode.equals("41")) {
+            SerenityRest
+                    .then()
+                    .statusCode(200)
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/addCartGagal41.json"));
         }
 
         String resCodeActual = SerenityRest.then().extract().path("rescode");
@@ -149,8 +137,6 @@ public class plnPostpaidLoginStep extends Steps {
 
         Assert.assertTrue(rescode.equals(resCodeActual));
         Assert.assertTrue(pesan.equals(pesanActual));
-
-        prodId = productId;
     }
 
     public void selectPayment (String payment, String rescode, String pesan){
@@ -207,8 +193,6 @@ public class plnPostpaidLoginStep extends Steps {
             reqBody.put("promo_code", "");
             reqBody.put("use_credit", true);
             reqBody.put("usermail", "coba@alterra.id");
-
-            metodePembayaran = "Free Order";
         }
 
         SerenityRest
@@ -256,6 +240,7 @@ public class plnPostpaidLoginStep extends Steps {
                     .then()
                         .statusCode(200)
                         .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/prosesPembayaranGagal.json"));   //JSON SUKSES DENGAN SC sama dengan JSON GAGAL
+            metodePembayaran = "Free Order";
         }
 
         String resCodeActual = SerenityRest.then().extract().path("rescode");
@@ -268,6 +253,7 @@ public class plnPostpaidLoginStep extends Steps {
     }
 
     public void completePembayaran(String rescode, String pesan, String orderId){
+        System.out.println(metodePembayaran);
         Map<String, Object> reqBody =new HashMap<>();
         if (rescode.equals("00")) {
             reqBody.put("order_id", noOrder);
@@ -287,6 +273,7 @@ public class plnPostpaidLoginStep extends Steps {
                     .post(endPoint.completePembayaran);
 
         if (rescode.equals("00") && (metodePembayaran.equals("Mandiri Virtual Account") || metodePembayaran.equals("BCA Virtual Account") || metodePembayaran.equals("Virtual Account Semua Bank"))) {
+            System.out.println("masuk");
             SerenityRest
                     .then()
                     .statusCode(200)
@@ -298,9 +285,14 @@ public class plnPostpaidLoginStep extends Steps {
             String prodIdAkhir = SerenityRest.then().extract().path("data.cart.pane[0].product_id");
 
             Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
-            Assert.assertTrue(cekOrder.equals(noOrder));
+            Assert.assertTrue(noOrder.equals(cekOrder));
             Assert.assertTrue(totalPrice == price);
             Assert.assertTrue(prodId.equals(prodIdAkhir));
+
+            System.out.println("Harga Global : " + price + " Harga : " + totalPrice);
+            System.out.println("Pembayaran Global : " + pembayaranActual + " Pembayaran : " + metodePembayaran);
+            System.out.println("Product ID Global : " + prodIdAkhir + " Product ID : " + prodId);
+            System.out.println("Order ID Global : " + cekOrder + " Order ID : " + noOrder);
         }
         else if (rescode.equals("00") && (metodePembayaran.equals("Credit Card"))) {
             SerenityRest
@@ -313,8 +305,15 @@ public class plnPostpaidLoginStep extends Steps {
             String prodIdAkhir = SerenityRest.then().extract().path("data.cart.pane[0].product_id");
 
             Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
-            Assert.assertTrue(cekOrder.equals(noOrder));
+            Assert.assertTrue(noOrder.equals(cekOrder));
             Assert.assertTrue(prodId.equals(prodIdAkhir));
+
+            System.out.println("Pembayaran Global : " + pembayaranActual + " Pembayaran : " + metodePembayaran);
+            System.out.println("Product ID Global : " + prodIdAkhir + " Product ID : " + prodId);
+            System.out.println("Order ID Global : " + cekOrder + " Order ID : " + noOrder);
+
+            //int price = SerenityRest.then().extract().path("data.cart.total.amount");
+            //System.out.println("harga awal : " + totalPrice + "harga CC : " + price);
         }
         else if (rescode.equals("00") && (metodePembayaran.equals("Free Order"))) {
             SerenityRest
@@ -329,8 +328,13 @@ public class plnPostpaidLoginStep extends Steps {
 
             Assert.assertTrue(totalPrice == price);
             Assert.assertTrue(metodePembayaran.equals(pembayaranActual));
-            Assert.assertTrue(cekOrder.equals(noOrder));
+            Assert.assertTrue(noOrder.equals(cekOrder));
             Assert.assertTrue(prodId.equals(prodIdAkhir));
+
+            System.out.println("Harga Global : " + price + " Harga : " + totalPrice);
+            System.out.println("Pembayaran Global : " + pembayaranActual + " Pembayaran : " + metodePembayaran);
+            System.out.println("Product ID Global : " + prodIdAkhir + " Product ID : " + prodId);
+            System.out.println("Order ID Global : " + cekOrder + " Order ID : " + noOrder);
         }
         else if (rescode.equals("81")){
             SerenityRest
@@ -339,14 +343,12 @@ public class plnPostpaidLoginStep extends Steps {
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/completePembayaranGagal.json"));
         }
 
-
         String resCodeActual = SerenityRest.then().extract().path("rescode");
         String pesanActual = SerenityRest.then().extract().path("message.body");
 
         Assert.assertTrue(rescode.equals(resCodeActual));
         Assert.assertTrue(pesan.equals(pesanActual));
     }
-
 
     public void cekPaymentList(){
         SerenityRest

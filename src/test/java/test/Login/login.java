@@ -11,8 +11,8 @@ public class login extends SerenityStory {
     @Steps
     loginStep step;
 
-    @Given("User sudah berada di halaman awal")
-    public void givenUserSudahBeradaDiHalamanAwal() {
+    @Given("User sudah berada di halaman login")
+    public void givenUserSudahBeradaDiHalamanLogin() {
 
     }
 
@@ -21,14 +21,21 @@ public class login extends SerenityStory {
         step.loginUser(username, password);
     }
 
-    @Then("Berhasil masuk ke website sepulsa")
-    public void thenBerhasilMasukKeWebsiteSepulsa() {
-        //step.validateLoginUser();
-    }
-
     @Then("Berhasil login dengan mendapat <rescode> dan <pesan>")
     public void thenBerhasilLoginDenganMendapatrescodeDanpesan(String rescode, String pesan) {
         step.validateLoginUser(rescode, pesan);
     }
+
+    //SCENARIO 2
+    @When("Mengisi field <username> dan <password> invalid untuk login")
+    public void whenMengisiFieldusernameDanpasswordInvalidUntukLogin(String username, String password) {
+        step.loginUser(username, password);
+    }
+
+    @Then("Gagal login dengan mendapat <rescode> dan <pesan>")
+    public void thenGagalLoginDenganMendapatrescodeDanpesan(String rescode, String pesan) {
+        step.validateLoginUser(rescode, pesan);
+    }
+
 
 }

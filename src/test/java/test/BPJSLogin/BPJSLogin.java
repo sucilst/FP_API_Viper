@@ -43,9 +43,9 @@ public class BPJSLogin extends SerenityStory {
     }
 
     //Scenario 2
-    @When("Masukkan <customerNumber> dan <productId> (invalid) untuk proses inquiry (BPJS)")
-    public void whenMasukkancustomerNumberDanproductIdinvalidUntukProsesInquiryBPJS(String customerNumber, String productId) {
-        step.inquiryGagal(customerNumber, productId);
+    @When("Masukkan <customerNumber> dan <productId> dan <paymentPeriod> (invalid) untuk proses inquiry (BPJS)")
+    public void whenMasukkancustomerNumberDanproductIdDanpaymentPeriodinvalidUntukProsesInquiryBPJS(String customerNumber, String productId, String paymentPeriod) {
+        step.inquiryGagal(customerNumber, productId, paymentPeriod);
     }
 
     @Then("Inquiry gagal dan mendapat <rescode> dan <pesan1> atau <pesan2> (BPJS)")
@@ -54,9 +54,9 @@ public class BPJSLogin extends SerenityStory {
     }
 
     //Scenario 3
-    @When("Masukkan customer number, payment period dan product id yang valid untuk proses inquiry")
-    public void whenMasukkanCustomerNumberPaymentPeriodDanProductIdYangValidUntukProsesInquiry() {
-        step.inquiry("0000001430071801", "383", "01", "00", "");
+    @When("Masukkan customer number, payment period dan product id yang valid untuk proses inquiry (BPJS)")
+    public void whenMasukkanCustomerNumberPaymentPeriodDanProductIdYangValidUntukProsesInquiryBPJS() {
+        step.inquiry("0000001430071807", "383", "01", "00", "");
     }
 
     @When("Masukkan <customerNumber> dan <productId> dan <type> (invalid) untuk proses cart add (BPJS)")

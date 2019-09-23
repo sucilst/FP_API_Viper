@@ -1,9 +1,6 @@
 package test.PLNPrepaidLogin;
 
 import net.serenitybdd.rest.SerenityRest;
-import org.jbehave.core.annotations.Given;
-import org.jbehave.core.annotations.Then;
-import org.jbehave.core.annotations.When;
 import org.junit.Assert;
 import utils.Endpoint;
 
@@ -33,13 +30,13 @@ public class plnPrepaidLoginStep {
                     .post(endPoint.login);
         SerenityRest
                 .then()
-                    .statusCode(200);
+                    .statusCode(200)
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPrepaidLogin/loginSukses.json"));
 
         String resCode = SerenityRest.then().extract().path("rescode");
         Assert.assertTrue(resCode.equals("00"));
 
         accessToken = SerenityRest.then().extract().path("data.access_token");
-
     }
 
     public void inquiry (String customerNumber, String productId, String rescode, String pesan){
@@ -101,7 +98,7 @@ public class plnPrepaidLoginStep {
         Assert.assertTrue(productId.equals(prodIdActual));
 
         totalPrice = SerenityRest.then().extract().path("data.total[0].amount");
-        prodId = productId;
+        prodId = SerenityRest.then().extract().path("data.pane[0].product_id");
     }
 
     public void selectPayment (String payment, String rescode, String pesan){
@@ -158,8 +155,6 @@ public class plnPrepaidLoginStep {
             reqBody.put("promo_code", "");
             reqBody.put("use_credit", true);
             reqBody.put("usermail", "coba@alterra.id");
-
-            metodePembayaran = "Free Order";
         }
 
         SerenityRest
@@ -205,8 +200,9 @@ public class plnPrepaidLoginStep {
         else if (cekCC.equals("sc")){
             SerenityRest
                     .then()
-                    .statusCode(200)
-                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPrepaidLogin/prosesPembayaranGagal.json"));   //JSON SUKSES DENGAN SC sama dengan JSON GAGAL
+                        .statusCode(200)
+                        .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPrepaidLogin/prosesPembayaranGagal.json"));   //JSON SUKSES DENGAN SC sama dengan JSON GAGAL
+            metodePembayaran = "Free Order";
         }
 
         String resCodeActual = SerenityRest.then().extract().path("rescode");
@@ -247,6 +243,9 @@ public class plnPrepaidLoginStep {
                     .statusCode(200)
                     .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPrepaidLogin/completePembayaranCCSukses.json"));
 
+            /*int price = SerenityRest.then().extract().path("data.cart.total.amount");
+            System.out.println("harga awal : " + totalPrice + "harga CC : " + price);
+*/
         }
         else if (rescode.equals("00") && (metodePembayaran.equals("Free Order"))) {
             SerenityRest
@@ -304,7 +303,8 @@ public class plnPrepaidLoginStep {
         else {
             SerenityRest
                     .then()
-                    .statusCode(500);
+                    .statusCode(500)
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPrepaidLogin/inquiryGagal500.json"));
         }
     }
 
@@ -360,11 +360,10 @@ public class plnPrepaidLoginStep {
     }
 
     public void validateProsesPembayaranGagal(String rescode, String pesan) {
-
         SerenityRest
                 .then()
                     .statusCode(200)
-                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPostpaidLogin/prosesPembayaranGagal.json"));   //JSON SUKSES DENGAN SC sama dengan JSON GAGAL
+                    .body(matchesJsonSchemaInClasspath("JSONSchema/PLNPrepaidLogin/prosesPembayaranGagal.json"));   //JSON SUKSES DENGAN SC sama dengan JSON GAGAL
 
         String resCodeActual = SerenityRest.then().extract().path("rescode");
         String pesanActual = SerenityRest.then().extract().path("message.body");
@@ -390,7 +389,6 @@ public class plnPrepaidLoginStep {
     }
 
     public void validateCompletePembayaranGagal(String rescode, String pesan) {
-
         SerenityRest
                 .then()
                     .statusCode(200)
